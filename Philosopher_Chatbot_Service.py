@@ -4,7 +4,7 @@ import re
 import deepl
 
 # OpenAI API 키 설정
-API_KEY = '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'
+API_KEY = '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'
 openai.api_key = API_KEY
 
 #DeepL API 키 설정
