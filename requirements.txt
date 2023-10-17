@@ -1,3 +1,4 @@
 streamlit
 openai
 deepl
+python-dotenv
