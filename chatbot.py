@@ -78,12 +78,11 @@ if submit_button and user_message:
         )
         message_content = response.choices[0].message["content"]
     else:  # Davinci 선택 시
-        prompt_text = selected_prompt + user_message
-        st.write(f"{prompt_text}")
-        st.write(f"{selected_model_final}")
+        #st.write(f"{prompt_text}")
+        #st.write(f"{selected_model_final}")
         response = openai.Completion.create(
             engine=selected_model_final,
-            prompt=prompt_text,
+            prompt=user_input,
             max_tokens=max_tokens
         )
         message_content = response.choices[0].text.strip()
