@@ -84,7 +84,7 @@ if submit_button and user_message:
             prompt=prompt_message,
             max_tokens=max_tokens
         )
-        message_content = response.choices[0].text.strip()
+        message_content = response.choices[0].text.strip() 
     st.session_state.messages.append({"role": "assistant", "content": message_content})
 
 # 대화 로그 및 상태 초기화 버튼들
