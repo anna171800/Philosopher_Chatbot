@@ -46,6 +46,7 @@ available_models = {
     "Davinci": "davinci"
 }
 selected_model = st.radio("🤖 사용할 모델:", list(available_models.keys()))
+selected_model_final = available_models[selected_model]
 
 # session_state에 messages 리스트 초기화
 if "messages" not in st.session_state:
@@ -70,16 +71,16 @@ if submit_button and user_message:
     st.session_state.messages.append({"role": "user", 
                                       "content": user_input})
 
-    if selected_model == "gpt-3.5-turbo":
+    if selected_model_final == "gpt-3.5-turbo":
         response = openai.ChatCompletion.create(
-            model=selected_model,
+            model=selected_model_final,
             messages=st.session_state.messages
         )
         message_content = response.choices[0].message["content"]
     else:  # Davinci 선택 시
         prompt_text = selected_prompt + user_message
         response = openai.Completion.create(
-            model=selected_model,
+            model=selected_model_final,
             prompt=prompt_text,
             max_tokens=max_tokens
         )
