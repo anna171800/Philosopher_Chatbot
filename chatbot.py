@@ -72,19 +72,19 @@ if submit_button and user_message:
                                       "content": user_input})
 
     if selected_model == "gpt-3.5-turbo":
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+        response = openai.Completion.create(
+            model=selected_model,
             messages=st.session_state.messages
         )
         message_content = response.choices[0].message["content"]
     else:  # Davinci 선택 시
-        prompt_message = selected_prompt + user_message
+        prompt_text = selected_prompt + user_message
         response = openai.Completion.create(
-            model="davinci",
-            prompt=prompt_message,
+            model=selected_model,
+            prompt=prompt_text,
             max_tokens=max_tokens
         )
-        message_content = response.choices[0].text.strip() 
+        message_content = response.choices[0].text.strip()
     st.session_state.messages.append({"role": "assistant", "content": message_content})
 
 # 대화 로그 및 상태 초기화 버튼들
