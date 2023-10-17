@@ -103,16 +103,3 @@ for message in st.session_state.messages:
         answer= message['content']
         answer = translator.translate_text(answer, target_lang="KO").text
         st.write(f"{answer}")
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
