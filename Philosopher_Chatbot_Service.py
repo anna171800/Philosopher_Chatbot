@@ -63,7 +63,7 @@ if submit_button and user_message:
 
     # OpenAI GPT-3.5-turbo를 사용해 응답 생성
     response = openai.ChatCompletion.create(
-        model="gpt-3.5",
+        model="gpt-3.5-turbo",
         messages=st.session_state.messages  # 전체 메시지 리스트를 API에 전송
     )
 
