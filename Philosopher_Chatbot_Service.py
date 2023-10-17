@@ -1,3 +1,7 @@
+!pip install openai
+!pip install deepl
+
+
 import openai
 import streamlit as st
 import re
