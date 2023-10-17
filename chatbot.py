@@ -77,7 +77,7 @@ if submit_button and user_message:
     else:
         response = openai.Completion.create(
         model="davinci",
-        prompt=st.session_state.messages,
+        prompt=st.session_state.messages[content],
         )
 
     message_content = response.choices[0].message["content"]
