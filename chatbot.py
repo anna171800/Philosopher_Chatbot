@@ -41,8 +41,11 @@ selected_prompt = philosophers[selected_philosopher]
 selected_len = st.radio("🗣️ 답변 길이:", list(len_select.keys()))
 max_tokens = len_select[selected_len]
 
-selected_model = st.radio("사용 모델:", list(model_list.keys()))
-selected_final_model = model_list[selected_model]
+available_models = {
+    "GPT-3.5-Turbo": "gpt-3.5-turbo",
+    "Davinci": "davinci"
+}
+selected_model = st.radio("🤖 사용할 모델:", list(available_models.keys()))
 
 # session_state에 messages 리스트 초기화
 if "messages" not in st.session_state:
@@ -68,20 +71,20 @@ if submit_button and user_message:
     st.session_state.messages.append({"role": "user", 
                                       "content": user_input})
 
-    # OpenAI GPT-3.5-turbo를 사용해 응답 생성
-    if selected_final_model=='gpt-3.5-turbo':
+    if selected_model == "gpt-3.5-turbo":
         response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=st.session_state.messages  # 전체 메시지 리스트를 API에 전송
+            model="gpt-3.5-turbo",
+            messages=st.session_state.messages
         )
-
-    else:
+        message_content = response.choices[0].message["content"]
+    else:  # Davinci 선택 시
+        prompt_message = selected_prompt + user_message
         response = openai.Completion.create(
-        model="davinci",
-        prompt=user_input,
+            model="davinci",
+            prompt=prompt_message,
+            max_tokens=max_tokens
         )
-
-    message_content = response.choices[0].message["content"]
+        message_content = response.choices[0].text.strip()
     st.session_state.messages.append({"role": "assistant", "content": message_content})
 
 # 대화 로그 및 상태 초기화 버튼들
