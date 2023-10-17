@@ -64,8 +64,9 @@ with st.form(key='message_form'):
 
 if submit_button and user_message:
     #user_message_en=translator.translate_text(user_message, target_lang="EN-US").text
+    user_input = selected_prompt + 'Answer about ' + user_message + ' in ' + str(max_tokens) +' words, just like ' + selected_prompt.split(' ')[8].replace(',','') + ' counsel'
     st.session_state.messages.append({"role": "user", 
-                                      "content": selected_prompt + 'Answer about ' + user_message + ' in ' + str(max_tokens) +' words, just like ' + selected_prompt.split(' ')[8].replace(',','') + ' counsel'})
+                                      "content": user_input})
 
     # OpenAI GPT-3.5-turbo를 사용해 응답 생성
     if selected_final_model=='gpt-3.5-turbo':
@@ -77,7 +78,7 @@ if submit_button and user_message:
     else:
         response = openai.Completion.create(
         model="davinci",
-        prompt=st.session_state.messages[content],
+        prompt=user_input,
         )
 
     message_content = response.choices[0].message["content"]
