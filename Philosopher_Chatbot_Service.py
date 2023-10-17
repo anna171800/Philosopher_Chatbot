@@ -25,6 +25,11 @@ philosophers = {
 # 답변 길이 목록
 len_select = {"짧은 답변 📑": 100, "긴 답변 📜": 300}
 
+#사용가능 모델 목록
+available_models = {
+    "GPT-3.5-Turbo": "gpt-3.5-turbo",
+    "GPT-4": "gpt-4"
+}
 
 # Streamlit 앱 설정
 st.title('🧔📚 철학자와 대화하기')
@@ -37,6 +42,10 @@ selected_prompt = philosophers[selected_philosopher]
 # 답변 길이에 따라 max_tokens 설정
 selected_len = st.radio("🗣️ 답변 길이:", list(len_select.keys()))
 max_tokens = len_select[selected_len]
+
+#사용할 모델 선택
+selected_model = st.radio("🤖 사용할 모델:", list(available_models.keys()))
+selected_model_final = available_models[selected_model]
 
 # session_state에 messages 리스트 초기화
 if "messages" not in st.session_state:
@@ -63,7 +72,7 @@ if submit_button and user_message:
 
     # OpenAI GPT-3.5-turbo를 사용해 응답 생성
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-16k",
+        model=selected_model_final,
         messages=st.session_state.messages  # 전체 메시지 리스트를 API에 전송
     )
 
