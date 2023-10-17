@@ -2,14 +2,17 @@ import openai
 import streamlit as st
 import re
 import deepl
+import os
+from dotenv import load_dotenv
+
+# .env 파일 불러오기
+load_dotenv()
 
 # OpenAI API 키 설정
-API_KEY = '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'
-openai.api_key = API_KEY
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 #DeepL API 키 설정
-auth_key = "c24af978-e422-0d8b-4420-4c2daa1a067e:fx"
-translator = deepl.Translator(auth_key)
+translator = deepl.Translator(os.getenv("DeepL_API_KEY"))
 
 # 사용 가능한 철학자와 대화 프롬프트 목록
 philosophers = {
