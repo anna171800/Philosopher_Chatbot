@@ -66,13 +66,12 @@ with st.form(key='message_form'):
     submit_button = st.form_submit_button(label='전송')
 
 if submit_button and user_message:
-    #user_message_en=translator.translate_text(user_message, target_lang="EN-US").text
     user_input = selected_prompt + 'Answer about ' + user_message + ' in ' + str(max_tokens) +' words, just like ' + selected_prompt.split(' ')[8].replace(',','') + ' counsel'
     st.session_state.messages.append({"role": "user", 
                                       "content": user_input})
 
     if selected_model == "gpt-3.5-turbo":
-        response = openai.Completion.create(
+        response = openai.ChatCompletion.create(
             model=selected_model,
             messages=st.session_state.messages
         )
