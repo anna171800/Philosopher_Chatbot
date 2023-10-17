@@ -51,7 +51,8 @@ if 'messages' not in st.session_state:
 # 폼 생성
 with st.form(key='message_form'):
     # 사용자의 메시지 입력 받기
-    user_message = st.text_input("철학자와 대화를 시작해보세요: ")
+    st.write("안녕하세요! 철학자와 대화를 시작해 보세요!")
+    user_message = st.text_input("철학자에게 고민을 말해보세요: ")
     # 폼 제출 버튼 추가
     submit_button = st.form_submit_button(label='전송')
 
