@@ -80,7 +80,7 @@ if submit_button and user_message:
     else:  # Davinci 선택 시
         prompt_text = selected_prompt + user_message
         response = openai.Completion.create(
-            model=selected_model_final,
+            engine=selected_model_final,
             prompt=prompt_text,
             max_tokens=max_tokens
         )
