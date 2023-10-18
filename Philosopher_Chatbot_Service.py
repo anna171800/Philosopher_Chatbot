@@ -34,6 +34,10 @@ available_models = {
 # Streamlit 앱 설정
 st.title('🧔📚 철학자와 대화하기')
 
+if 'messages' not in st.session_state:
+    st.session_state.messages = []
+
+
 # 사용자 선택에 따라 프롬프트 설정
 selected_philosopher = st.radio("👨‍🏫 철학자 선택:", list(philosophers.keys()))
 selected_prompt = philosophers[selected_philosopher]
@@ -53,9 +57,6 @@ if "messages" not in st.session_state:
         {"role": "system", 
          "content": "You are %s. Do not act like a chatbot and just be %s himself" % (selected_prompt.split(' ')[8], selected_prompt.split(' ')[8])}
     ]
-
-if 'messages' not in st.session_state:
-    st.session_state.messages = []
     
 # 폼 생성
 with st.form(key='message_form'):
