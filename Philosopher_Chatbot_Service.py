@@ -76,6 +76,8 @@ if submit_button and user_message:
     )
 
     message_content = response.choices[0].message["content"]
+    if 'messages' not in st.session_state:
+        st.session_state.messages = []
     st.session_state.messages.append({"role": "assistant", "content": message_content})
 
 # 대화 로그 및 상태 초기화 버튼들
