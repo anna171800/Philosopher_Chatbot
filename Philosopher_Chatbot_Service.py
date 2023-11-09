@@ -54,20 +54,20 @@ col1, col2, col3 = st.columns(3)
 
 # 첫 번째 컬럼에 철학자 선택
 with col1:
-    st.markdown("#### 👨‍🏫 철학자 선택:")
+    st.markdown("## 👨‍🏫 철학자 선택:")
     selected_philosopher = st.radio("", list(philosophers.keys()))
 selected_prompt = philosophers[selected_philosopher]
 
 # 두 번째 컬럼에 답변 길이 선택
 with col2:
-    st.markdown("#### 🗣️ 답변 길이:")
+    st.markdown("## 🗣️ 답변 길이:")
     selected_len = st.radio("", list(len_select.keys()))
 max_tokens = len_select[selected_len]
 
 # 세 번째 컬럼에 모델 선택
 with col3:
-    st.markdown("#### 🤖 사용할 모델:")
-    selected_model = st.radio("", list(available_models.keys()), key="model")
+    st.markdown("## 🤖 사용할 모델:")
+    selected_model = st.radio("", list(available_models.keys()))
 selected_model_final = available_models[selected_model]
 
 
