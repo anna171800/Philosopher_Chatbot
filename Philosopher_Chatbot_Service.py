@@ -80,19 +80,14 @@ with st.form(key='message_form'):
     # 사용자의 메시지 입력 받기
     st.write("안녕하세요! 환영합니다. 철학자와 대화를 시작해 보세요!")
     user_message = st.text_input("철학자에게 고민을 말해보세요: ")
-
-    # 버튼을 오른쪽으로 정렬하기 위한 CSS
-    st.markdown("""
-        <style>
-        div.stButton > button:first-child {
-            float: right;
-        }
-        </style>""",
-        unsafe_allow_html=True
-    )
     
     # 폼 제출 버튼 추가
     submit_button = st.form_submit_button(label='전송')
+    if st.button("대화 다시 시작하기"):
+        st.session_state.messages = [
+            {"role": "system", 
+             "content": "You are %s. Do not act like a chatbot and just be %s himself" % (selected_prompt.split(' ')[8].replace(',','') , selected_prompt.split(' ')[8].replace(',',''))}
+        ]
 
 if submit_button and user_message:
     #user_message_en=translator.translate_text(user_message, target_lang="EN-US").text
@@ -111,11 +106,11 @@ if submit_button and user_message:
     st.session_state.messages.append({"role": "assistant", "content": message_content})
 
 # 대화 로그 및 상태 초기화 버튼들
-if st.button("대화 다시 시작하기"):
-    st.session_state.messages = [
-        {"role": "system", 
-         "content": "You are %s. Do not act like a chatbot and just be %s himself" % (selected_prompt.split(' ')[8].replace(',','') , selected_prompt.split(' ')[8].replace(',',''))}
-    ]
+#if st.button("대화 다시 시작하기"):
+    #st.session_state.messages = [
+        #{"role": "system", 
+         #"content": "You are %s. Do not act like a chatbot and just be %s himself" % (selected_prompt.split(' ')[8].replace(',','') , selected_prompt.split(' ')[8].replace(',',''))}
+    #]
 
 # 대화 로그 표시
 st.subheader("📝 대화 로그")
