@@ -54,7 +54,7 @@ col1, col2, col3 = st.columns(3)
 
 # 첫 번째 컬럼에 철학자 선택
 with col1:
-    st.markdown("### 👨‍🏫 철학자 선택:")
+    st.markdown("#### 👨‍🏫 철학자 선택:")
     selected_philosopher = st.radio("", list(philosophers.keys()))
 selected_prompt = philosophers[selected_philosopher]
 
