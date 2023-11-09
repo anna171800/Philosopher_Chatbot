@@ -80,6 +80,17 @@ with st.form(key='message_form'):
     # 사용자의 메시지 입력 받기
     st.write("안녕하세요! 환영합니다. 철학자와 대화를 시작해 보세요!")
     user_message = st.text_input("철학자에게 고민을 말해보세요: ")
+
+    # 버튼을 오른쪽으로 정렬하기 위한 CSS
+    st.markdown("""
+        <style>
+        div.stButton > button:first-child {
+            float: right;
+        }
+        </style>""",
+        unsafe_allow_html=True
+    )
+    
     # 폼 제출 버튼 추가
     submit_button = st.form_submit_button(label='전송')
 
