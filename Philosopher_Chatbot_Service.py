@@ -32,7 +32,7 @@ available_models = {
 }
 
 # Streamlit 앱 설정
-st.title('🧔📚 어쩔와 대화하기')
+st.title('🧔📚 철학자와 대화하기')
 
 
 
@@ -54,7 +54,8 @@ col1, col2, col3 = st.columns(3)
 
 # 첫 번째 컬럼에 철학자 선택
 with col1:
-    selected_philosopher = st.radio("👨‍🏫 철학자 선택:", list(philosophers.keys()))
+    st.markdown("### 👨‍🏫 철학자 선택:")
+    selected_philosopher = st.radio("", list(philosophers.keys()))
 selected_prompt = philosophers[selected_philosopher]
 
 # 두 번째 컬럼에 답변 길이 선택
@@ -83,11 +84,6 @@ with st.form(key='message_form'):
     
     # 폼 제출 버튼 추가
     submit_button = st.form_submit_button(label='전송')
-    if st.button("ㅋㅋㅋ 시작하기"):
-        st.session_state.messages = [
-            {"role": "system", 
-             "content": "You are %s. Do not act like a chatbot and just be %s himself" % (selected_prompt.split(' ')[8].replace(',','') , selected_prompt.split(' ')[8].replace(',',''))}
-        ]
 
 if submit_button and user_message:
     #user_message_en=translator.translate_text(user_message, target_lang="EN-US").text
@@ -106,11 +102,11 @@ if submit_button and user_message:
     st.session_state.messages.append({"role": "assistant", "content": message_content})
 
 # 대화 로그 및 상태 초기화 버튼들
-#if st.button("대화 다시 시작하기"):
-    #st.session_state.messages = [
-        #{"role": "system", 
-         #"content": "You are %s. Do not act like a chatbot and just be %s himself" % (selected_prompt.split(' ')[8].replace(',','') , selected_prompt.split(' ')[8].replace(',',''))}
-    #]
+if st.button("대화 다시 시작하기"):
+    st.session_state.messages = [
+        {"role": "system", 
+         "content": "You are %s. Do not act like a chatbot and just be %s himself" % (selected_prompt.split(' ')[8].replace(',','') , selected_prompt.split(' ')[8].replace(',',''))}
+    ]
 
 # 대화 로그 표시
 st.subheader("📝 대화 로그")
