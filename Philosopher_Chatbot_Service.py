@@ -83,7 +83,7 @@ with st.form(key='message_form'):
     
     # 폼 제출 버튼 추가
     submit_button = st.form_submit_button(label='전송')
-    if st.button("대화 다시 시작하기"):
+    if st.button("ㅋㅋㅋ 시작하기"):
         st.session_state.messages = [
             {"role": "system", 
              "content": "You are %s. Do not act like a chatbot and just be %s himself" % (selected_prompt.split(' ')[8].replace(',','') , selected_prompt.split(' ')[8].replace(',',''))}
