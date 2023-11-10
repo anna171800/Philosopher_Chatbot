@@ -3,4 +3,4 @@ openai
 deepl
 python-dotenv
 openai migrate
---upgrade openai
+upgrade openai
