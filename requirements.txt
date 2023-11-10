@@ -1,7 +1,4 @@
-upgrade pip
 streamlit
-openai
+openai==0.28
 deepl
 python-dotenv
-openai migrate
-upgrade openai
