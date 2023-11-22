@@ -16,14 +16,14 @@ translator = deepl.Translator(os.getenv("DeepL_API_KEY"))
 
 # 사용 가능한 철학자와 대화 프롬프트 목록
 philosophers = {
-    "니체": "In the manner and with the ideas of Nietzsche, ",
-    "칸트": "In the manner and with the ideas of Kant, ",
-    "맹자": "In the manner and with the ideas of Mencius, ",
-    "노자": "In the manner and with the ideas of Lao Tzu, "
+    "니체": "In the manner of and with the ideas of Nietzsche, ",
+    "칸트": "In the manner of and with the ideas of Kant, ",
+    "맹자": "In the manner of and with the ideas of Mencius, ",
+    "노자": "In the manner of and with the ideas of Lao Tzu, "
 }
 
 # 답변 길이 목록
-len_select = {"짧은 답변 📑": 100, "긴 답변 📜": 300}
+len_select = {"짧은 답변 📑": 50, "긴 답변 📜": 200}
 
 #사용가능 모델 목록
 available_models = {
@@ -72,7 +72,7 @@ selected_model_final = available_models[selected_model]
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "system", 
-         "content": "You are %s. Do not act like a chatbot and just be %s himself" % (selected_prompt.split(' ')[8], selected_prompt.split(' ')[8])}
+         "content": "You are %s. Do not act like a chatbot and just be %s himself" % (selected_prompt.split(' ')[9], selected_prompt.split(' ')[9])}
     ]
     
 # 폼 생성
@@ -87,7 +87,7 @@ with st.form(key='message_form'):
 if submit_button and user_message:
     #user_message_en=translator.translate_text(user_message, target_lang="EN-US").text
     st.session_state.messages.append({"role": "user", 
-                                      "content": selected_prompt + 'Answer about ' + user_message + ' in ' + str(max_tokens) +' words, just like ' + selected_prompt.split(' ')[8].replace(',','') + ' counsel'})
+                                      "content": selected_prompt + 'Answer about ' + user_message + ' in ' + str(max_tokens) +' words, just like ' + selected_prompt.split(' ')[9].replace(',','') + ' counsel'})
 
     # OpenAI GPT-3.5-turbo를 사용해 응답 생성
     response = openai.ChatCompletion.create(
@@ -104,32 +104,16 @@ if submit_button and user_message:
 if st.button("대화 다시 시작하기"):
     st.session_state.messages = [
         {"role": "system", 
-         "content": "You are %s. Do not act like a chatbot and just be %s himself" % (selected_prompt.split(' ')[8].replace(',','') , selected_prompt.split(' ')[8].replace(',',''))}
+         "content": "You are %s. Do not act like a chatbot and just be %s himself" % (selected_prompt.split(' ')[9].replace(',','') , selected_prompt.split(' ')[9].replace(',',''))}
     ]
 
-# 대화 로그 표시
 st.subheader("📝 대화 로그")
 for message in st.session_state.messages:
     if message["role"] == "user":
-        role_1 = "🙋‍♂️나: "
-        question = message['content']
-        pattern_1 = "Answer about (.*?) in"
-        match_1 = re.search(pattern_1, question)
-        if match_1:
-            result_1 = match_1.group(1)
-        pattern_2= 'like (.*?) counsel'
-        match_2= re.search(pattern_2, question)
-        if match_2:
-            result_2 = match_2.group(1)
-        result_2=translator.translate_text(result_2, target_lang="KO").text
-        if result_2=='Lao':
-            role_2="🧔노자:"
-        else:
-            role_2 = "🧔%s:"%result_2
-        st.write(f"{role_1}")
-        st.write(f"{result_1}")
-        st.write(f"{role_2}")
+        # 사용자 메시지 포맷
+        user_question = re.search("Answer about (.*?) in", message['content']).group(1)
+        st.markdown(f"**🙋‍♂️ 사용자:** {user_question}")
     elif message['role'] == 'assistant':
-        answer= message['content']
-        answer = translator.translate_text(answer, target_lang="KO").text
-        st.write(f"{answer}")
+        # 챗봇 응답 포맷
+        assistant_response = translator.translate_text(message['content'], target_lang="KO").text
+        st.markdown(f"**🧔 철학자:** {assistant_response}")
