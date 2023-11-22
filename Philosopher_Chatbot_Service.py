@@ -99,10 +99,25 @@ if st.button("대화 다시 시작하기"):
 st.subheader("📝 대화 로그")
 for message in st.session_state.messages:
     if message["role"] == "user":
-        # 사용자 메시지 포맷
-        user_question = re.search("Answer about (.*?) in", message['content']).group(1)
-        st.markdown(f"**🙋‍♂️ 사용자:** {user_question}")
+        role_1 = "🙋‍♂️나: "
+        question = message['content']
+        pattern_1 = "Answer about (.*?) in"
+        match_1 = re.search(pattern_1, question)
+        if match_1:
+            result_1 = match_1.group(1)
+        pattern_2= 'like (.*?) counsel'
+        match_2= re.search(pattern_2, question)
+        if match_2:
+            result_2 = match_2.group(1)
+        result_2=translator.translate_text(result_2, target_lang="KO").text
+        if result_2=='Lao':
+            role_2="🧔노자:"
+        else:
+            role_2 = "🧔%s:"%result_2
+        st.write(f"{role_1}")
+        st.write(f"{result_1}")
+        st.write(f"{role_2}")
     elif message['role'] == 'assistant':
-        # 챗봇 응답 포맷
-        assistant_response = translator.translate_text(message['content'], target_lang="KO").text
-        st.markdown(f"**🧔 철학자:** {assistant_response}")
+        answer= message['content']
+        answer = translator.translate_text(answer, target_lang="KO").text
+        st.write(f"{answer}")
