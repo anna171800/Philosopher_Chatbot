@@ -48,23 +48,23 @@ df = pd.read_excel("C:/Users/bangm/Desktop/병원정보_기본.xlsx")
 target_df = df[((df["요양기관명"].str.contains("소아"))|(df["종별코드명"].isin(["상급종합", "종합병원"])))&(df["좌표(Y)"]>(lat_here-0.0091*3))&(df["좌표(Y)"]<(lat_here+0.0091*3))&(df["좌표(X)"]>(lng_here-0.0113*3))&(df["좌표(X)"]<(lng_here+0.0113*3))]
 
 # 3. 병원 마커 찍기 (미완성)
-def map_mark(lat_here, lng_here):
-    from folium.plugins import MarkerCluster
-    m = folium.Map(location=[lat_here, lng_here],tiles=tiles,attr="Vworld", zoom_start=15)
-    marker_cluster = MarkerCluster().add_to(m)
-    for name, lat, long in (zip(target_df["요양기관명"], target_df["좌표(Y)"], target_df["좌표(X)"])):
-        if math.isnan(lat)==False and math.isnan(long)==False:
-            iframe = folium.IFrame("<button type=\"button\" onclick=\"window.open('https://map.naver.com/p/search/%EC%86%8C%EC%95%84%EA%B3%BC')\" style=\"width:150px;\">예약페이지로 이동</button>")
-            popup = folium.Popup(iframe, min_height=40, max_height=40, min_width=180, max_width=180)
-            folium.Marker(
-                [lat, long], 
-                popup=popup, 
-                tooltip=name,
-            ).add_to(m)
+#def map_mark(lat_here, lng_here):
+    #from folium.plugins import MarkerCluster
+    #m = folium.Map(location=[lat_here, lng_here],tiles=tiles,attr="Vworld", zoom_start=15)
+    #marker_cluster = MarkerCluster().add_to(m)
+    #for name, lat, long in (zip(target_df["요양기관명"], target_df["좌표(Y)"], target_df["좌표(X)"])):
+        #if math.isnan(lat)==False and math.isnan(long)==False:
+            #iframe = folium.IFrame("<button type=\"button\" onclick=\"window.open('https://map.naver.com/p/search/%EC%86%8C%EC%95%84%EA%B3%BC')\" style=\"width:150px;\">예약페이지로 이동</button>")
+            #popup = folium.Popup(iframe, min_height=40, max_height=40, min_width=180, max_width=180)
+            #folium.Marker(
+                #[lat, long], 
+                #popup=popup, 
+                #tooltip=name,
+            #).add_to(m)
             
-    return m
+    #return m
 
-m = map_mark(lat_here, lng_here)
+#m = map_mark(lat_here, lng_here)
 ###################################################################################################
 # 4. 병원 세부정보
 import json
