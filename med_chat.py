@@ -216,7 +216,7 @@ if selection == None or selection == "menu1":
                 st.write(parking_info[2])
             st.form_submit_button("👩🏻‍⚕️병원 예약하러 가기", use_container_width=True)
 ###################################################################################################################
-  elif selection == "menu3":
+elif selection == "menu3":
     from translate import Translator
     from streamlit_chat import message
     import openai
