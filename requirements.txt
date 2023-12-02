@@ -1,5 +1,6 @@
 streamlit
 streamlit-option-menu 
+streamlit-chat
 folium
 streamlit_folium
 openai
