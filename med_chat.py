@@ -163,10 +163,10 @@ if selection == None or selection == "menu1":
         zoom_idx=12
 
     # [지도 그리기]
-    st.write("📍현재위치: ", lat_here,lng_here)
-    out = st_folium(m,zoom = zoom_idx, width=340, height=300)
-    if out["last_object_clicked"] is not None:
-        with st.form("test"):
+    #st.write("📍현재위치: ", lat_here,lng_here)
+    #out = st_folium(m,zoom = zoom_idx, width=340, height=300)
+    #if out["last_object_clicked"] is not None:
+        #with st.form("test"):
             #medi_cd = df[(df["좌표(Y)"]==out["last_object_clicked"]["lat"])&(df["좌표(X)"]==out["last_object_clicked"]["lng"])]["암호화요양기호"].reset_index()["암호화요양기호"][0]
             #medi_info = get_medi_info(medi_cd)
             # 클릭한 좌표에 맞는 병원정보
