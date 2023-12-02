@@ -1,4 +1,6 @@
 streamlit
-openai==0.28
+pandas
+sqlite3
+openai
 deepl
 python-dotenv
