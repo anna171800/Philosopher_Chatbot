@@ -1,6 +1,7 @@
 streamlit
 streamlit-option-menu 
 folium
+streamlit_folium
 openai
 deepl
 python-dotenv
