@@ -177,44 +177,44 @@ if selection == None or selection == "menu1":
                 #st.write("🧭 **병원 도로명주소:**")
                 #st.write(df[df["암호화요양기호"]==medi_cd]["주소"].item())
             # 예제1 (영업시작, 영업끝, 점심시작, 점심끝)
-            with st.chat_message("assistant", avatar="🕐"):
-                st.write(" **영업시간 정보**")
-                from streamlit_timeline import st_timeline
-                start_edited, end_edited, lunch_start, lunch_end = find_time(medi_info, datetime.datetime.today())
-                items = ({"id": "1", "content": "오전영업", "start": "2023-11-22T08:00", "end": "2023-11-22T13:00", "group": "1","style": "color: black; background-color: white;"},
-                        {"id": "2", "content": "오후영업", "start": "2023-11-22T15:00", "end": "2023-11-22T19:00", "group": "1","style": "color: black; background-color: white;"},
-                        {"id": "3", "content": "점심시간", "start": "2023-11-22T13:00", "end": "2023-11-22T15:00", "group": "1","style": "color: black; background-color: red;"},
-                        {"id": "4", "content": "현재시각", "start": "2023-11-22T13:00", "type": "point", "group": "2"})
+            #with st.chat_message("assistant", avatar="🕐"):
+                #st.write(" **영업시간 정보**")
+                #from streamlit_timeline import st_timeline
+                #start_edited, end_edited, lunch_start, lunch_end = find_time(medi_info, datetime.datetime.today())
+                #items = ({"id": "1", "content": "오전영업", "start": "2023-11-22T08:00", "end": "2023-11-22T13:00", "group": "1","style": "color: black; background-color: white;"},
+                        #{"id": "2", "content": "오후영업", "start": "2023-11-22T15:00", "end": "2023-11-22T19:00", "group": "1","style": "color: black; background-color: white;"},
+                        #{"id": "3", "content": "점심시간", "start": "2023-11-22T13:00", "end": "2023-11-22T15:00", "group": "1","style": "color: black; background-color: red;"},
+                        #{"id": "4", "content": "현재시각", "start": "2023-11-22T13:00", "type": "point", "group": "2"})
 
-                groups = ({"id": "1", "content": "🕐", "style": "color: black; background-color: white;"},
-                        {"id": "2", "content": "✔", "style": "color: black; background-color: white;"})
+               # groups = ({"id": "1", "content": "🕐", "style": "color: black; background-color: white;"},
+                        #{"id": "2", "content": "✔", "style": "color: black; background-color: white;"})
 
                 # @st.cache(suppress_st_warning=True)
-                def create_timeline(items, groups):
-                    timeline = st_timeline(items=items, groups=groups, options={"selectable": True,
-                                                                    "multiselect": True, 
-                                                                    "zoomable": True, 
-                                                                    "stack": False, 
-                                                                    "height": 154, 
-                                                                    "margin": {"axis": 5}, 
-                                                                    "groupHeightMode": "auto", 
-                                                                    "orientation": {"axis": "top", "item": "top"}}, 
-                                                                    style="color: red")
-                create_timeline(items, groups)
+                #def create_timeline(items, groups):
+                    #timeline = st_timeline(items=items, groups=groups, options={"selectable": True,
+                                                                    #"multiselect": True, 
+                                                                    #"zoomable": True, 
+                                                                    #"stack": False, 
+                                                                    #"height": 154, 
+                                                                    #"margin": {"axis": 5}, 
+                                                                    #"groupHeightMode": "auto", 
+                                                                    #"orientation": {"axis": "top", "item": "top"}}, 
+                                                                    #style="color: red")
+                #create_timeline(items, groups)
             # 예제2 (주차장 정보)
-            with st.chat_message("assistant", avatar="🚜"):
-                st.write(" **주차장 정보:**")
-                parking_info = find_parking_info(medi_info)
-                st.write("1️⃣ **주차가능대수:** ", parking_info[0])
-                if parking_info[1] == "N":
-                    st.write("2️⃣ **주차지원여부:** ")
-                    st.write("방문자 주차등록 가능")
-                else:
-                    st.write("2️⃣ **주차지원여부:**")
-                    st.write("방문자 주차등록 가능")
-                st.write("3️⃣ **주차관련안내:**")
-                st.write(parking_info[2])
-            st.form_submit_button("👩🏻‍⚕️병원 예약하러 가기", use_container_width=True)
+            #with st.chat_message("assistant", avatar="🚜"):
+                #st.write(" **주차장 정보:**")
+                #parking_info = find_parking_info(medi_info)
+                #st.write("1️⃣ **주차가능대수:** ", parking_info[0])
+                #if parking_info[1] == "N":
+                    #st.write("2️⃣ **주차지원여부:** ")
+                    #st.write("방문자 주차등록 가능")
+                #else:
+                    #st.write("2️⃣ **주차지원여부:**")
+                    #st.write("방문자 주차등록 가능")
+                #st.write("3️⃣ **주차관련안내:**")
+                #st.write(parking_info[2])
+            #st.form_submit_button("👩🏻‍⚕️병원 예약하러 가기", use_container_width=True)
 ###################################################################################################################
 elif selection == "menu3":
     from translate import Translator
