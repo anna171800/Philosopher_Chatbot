@@ -167,15 +167,15 @@ if selection == None or selection == "menu1":
     out = st_folium(m,zoom = zoom_idx, width=340, height=300)
     if out["last_object_clicked"] is not None:
         with st.form("test"):
-            medi_cd = df[(df["좌표(Y)"]==out["last_object_clicked"]["lat"])&(df["좌표(X)"]==out["last_object_clicked"]["lng"])]["암호화요양기호"].reset_index()["암호화요양기호"][0]
-            medi_info = get_medi_info(medi_cd)
+            #medi_cd = df[(df["좌표(Y)"]==out["last_object_clicked"]["lat"])&(df["좌표(X)"]==out["last_object_clicked"]["lng"])]["암호화요양기호"].reset_index()["암호화요양기호"][0]
+            #medi_info = get_medi_info(medi_cd)
             # 클릭한 좌표에 맞는 병원정보
-            with st.chat_message("assistant", avatar="🏥"):
-                st.write("**"+out["last_object_clicked_tooltip"]+"**")
-                st.write("📞 **병원 전화번호:**")
-                st.write(df[df["암호화요양기호"]==medi_cd]["전화번호"].item())
-                st.write("🧭 **병원 도로명주소:**")
-                st.write(df[df["암호화요양기호"]==medi_cd]["주소"].item())
+            #with st.chat_message("assistant", avatar="🏥"):
+                #st.write("**"+out["last_object_clicked_tooltip"]+"**")
+                #st.write("📞 **병원 전화번호:**")
+                #st.write(df[df["암호화요양기호"]==medi_cd]["전화번호"].item())
+                #st.write("🧭 **병원 도로명주소:**")
+                #st.write(df[df["암호화요양기호"]==medi_cd]["주소"].item())
             # 예제1 (영업시작, 영업끝, 점심시작, 점심끝)
             with st.chat_message("assistant", avatar="🕐"):
                 st.write(" **영업시간 정보**")
