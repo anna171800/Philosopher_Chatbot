@@ -289,7 +289,7 @@ elif selection == "menu3":
     import openai
     import csv
     st.title("아이봇 👩‍⚕️")
-    tab1= st.tabs(["아이봇 상담 👩‍⚕️"])
+    tab1, tab2= st.tabs(["아이봇 상담 👩‍⚕️", 'hi'])
     api_key=st.text_input("api key를 입력하세요:", key="user_input")
     openai.api_key=api_key
     
@@ -315,5 +315,7 @@ elif selection == "menu3":
           )
             answer=translator.translate_text(response.choices[0].message.content, target_lang="KO").text
             conversation.append({"role": "assistant", "content": answer})
-        
+    with tab2:
+        print('hi')
+
         
