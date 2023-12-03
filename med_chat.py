@@ -331,14 +331,14 @@ elif selection == "menu3":
                 "role": "user",
                 "content": """
                 의료와 관련된 질문을 할 거야. 성인이 아닌 소아나 청소년이라는 점을 고려해서 답변해줘!
-                아이의 성별은 %s, 키는 %scm, 몸무게가 %skg, 나이는 %s살이야.
+                아이의 성별은 %s, 키는 %fcm, 몸무게가 %fkg, 나이는 %d살이야.
                 
                 최근 3일 간 아이가 보인 특징은 다음과 같아.
     
                 현재 상황은 다음과 같아.
                 - %s
                 
-                이를 고려해서 맞춤 치료방법이나 복용해야하는 약 등을 포함해 현재 아이의 건강 상태를 분석해줘."""%(weight, height, age, gender, symptom)},
+                이를 고려해서 맞춤 치료방법이나 복용해야하는 약 등을 포함해 현재 아이의 건강 상태를 분석해줘."""%(gender, height, weight, age, symptom)},
                       {
                           "role": "system",
                           "content": "You are a pediatrician. Speak like you are a medical specialist"
