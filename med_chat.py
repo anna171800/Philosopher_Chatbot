@@ -287,6 +287,7 @@ elif selection == "menu2":
 elif selection == "menu3":
     from streamlit_chat import message
     import openai
+    import deepl
     import csv
     st.title("아이봇 상담👩‍⚕️")
     api_key=st.text_input("api key를 입력하세요:", key="api_key")
@@ -349,5 +350,24 @@ elif selection == "menu3":
         )
         answer=translator.translate_text(response.choices[0].message.content, target_lang="KO").text
         conversation.append({"role": "assistant", "content": answer})
+
+    # 대화 표시
+    for i, message_obj in enumerate(conversation):
+        if message_obj["role"] == "user":
+            message(symptom, is_user=True, key=f"user_message_{i}")
+        else:
+            message(message_obj["content"], key=f"assistant_message_{i}")
+        
+    # Save conversation in session state
+    st.session_state.conversation = conversation
+
+     # Accessing the chatbot's responses
+    assistant_responses = [message_obj["content"] for message_obj in conversation if message_obj["role"] == "assistant"]
+
+    # Storing the responses in a separate list (you can do this outside of the main code block)
+    # Example: storing in a list named assistant_responses_list
+    assistant_responses_list = st.session_state.get("assistant_responses_list", [])
+    assistant_responses_list.extend(assistant_responses)
+    st.session_state.assistant_responses_list = assistant_responses_list
 
         
