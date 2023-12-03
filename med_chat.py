@@ -291,6 +291,7 @@ elif selection == "menu3":
     st.title("아이봇 상담👩‍⚕️")
     api_key=st.text_input("api key를 입력하세요:", key="api_key")
     openai.api_key=api_key
+    translator = deepl.Translator(DeepL_API_KEY)
 
     date = st.date_input("날짜를 선택하세요")
     st.divider()
@@ -327,11 +328,22 @@ elif selection == "menu3":
             model="gpt-4",
             messages=[{
                 "role": "user",
-                "content": f"""몸무게가 {weight}kg, 키가 {height}cm인 {age}살 {gender} 아이가 {symptom}인 상황에서 가능한 치료방법이나 복용해야하는 약을 알려줘"""
-            },
+                "content": """
+                의료와 관련된 질문을 할 거야. 성인이 아닌 소아나 청소년이라는 점을 고려해서 답변해줘!
+                아이의 성별은 %s, 키는 %scm, 몸무게가 %skg, 나이는 %s살이야.
+                
+                최근 3일 간 아이가 보인 특징은 다음과 같아.
+                - 3일 전:%s
+                - 2일 전:%s
+                - 1일 전:%s
+    
+                현재 상황은 다음과 같아.
+                - %s
+                
+                이를 고려해서 맞춤 치료방법이나 복용해야하는 약 등을 포함해 현재 아이의 건강 상태를 분석해줘."""%(weight, height, age, gender, symptom)},
                       {
                           "role": "system",
-                          "content": "You are a pediatrician. Speak like you are a professional in medical science"
+                          "content": "You are a pediatrician. Speak like you are a medical specialist"
                       }
                      ]
         )
