@@ -288,34 +288,30 @@ elif selection == "menu3":
     from streamlit_chat import message
     import openai
     import csv
-    st.title("아이봇 👩‍⚕️")
-    tab1, tab2= st.tabs(["아이봇 상담 👩‍⚕️", 'hi'])
-    api_key=st.text_input("api key를 입력하세요:", key="user_input")
+    st.title("아이봇 상담👩‍⚕️")
+    st.text_input("api key를 입력하세요:", key="api_key")
     openai.api_key=api_key
     
-    with tab1:
-        conversation = [
-            {"role": "assistant", "content": f"아이의 증상과 상황을 알려주세요"},
-        ]
-        with st.form("chat_form", clear_on_submit=True):
-            user_input = st.text_input("상담 내용을 입력하세요:", key="user_input")
-            submitted = st.form_submit_button("입력")
-        if submitted and user_input:
-            conversation.append({
-                "role": "user",
-                "content": f"""몸무게가 {weight}kg, 키가 {height}cm인 {age}살 {gender} 아이가 {user_input}인 상황에서 가능한 치료방법이나 복용해야하는 약을 알려줘"""
-            },{
-                "role": "system",
-                "content": "You are a pediatrician. Speak like you are a professional in medical science"
-            }
-                )
-            response = openai.chat.completions.create(
-                model="gpt-4",
-                messages=conversation
-          )
-            answer=translator.translate_text(response.choices[0].message.content, target_lang="KO").text
-            conversation.append({"role": "assistant", "content": answer})
-    with tab2:
-        print('hi')
+    conversation = [
+        {"role": "assistant", "content": f"아이의 증상과 상황을 알려주세요"},
+    ]
+    with st.form("chat_form", clear_on_submit=True):
+        user_input = st.text_input("상담 내용을 입력하세요:", key="user_input")
+        submitted = st.form_submit_button("입력")
+    if submitted and user_input:
+        conversation.append({
+            "role": "user",
+            "content": f"""몸무게가 {weight}kg, 키가 {height}cm인 {age}살 {gender} 아이가 {user_input}인 상황에서 가능한 치료방법이나 복용해야하는 약을 알려줘"""
+        },{
+            "role": "system",
+            "content": "You are a pediatrician. Speak like you are a professional in medical science"
+        }
+            )
+        response = openai.chat.completions.create(
+            model="gpt-4",
+            messages=conversation
+      )
+        answer=translator.translate_text(response.choices[0].message.content, target_lang="KO").text
+        conversation.append({"role": "assistant", "content": answer})
 
         
