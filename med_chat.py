@@ -216,11 +216,11 @@ if selection == None or selection == "menu1":
                 #st.write(parking_info[2])
             #st.form_submit_button("👩🏻‍⚕️병원 예약하러 가기", use_container_width=True)
 ###################################################################################################################
-elif selection == "menu3":
+elif selection == "menu2":
     from streamlit_chat import message
     import openai
-    st.title("AI 챗봇")
-    tab1, tab2 = st.tabs(["우리 아이 정보", "챗봇"])
+    st.title("우리아이 육아일기 🧒📑")
+    tab1 = st.tabs(["우리 아이 정보", "챗봇"])
 
     with tab1:
         date = st.date_input("날짜를 선택하세요")
@@ -283,4 +283,36 @@ elif selection == "menu3":
         # Save DataFrame to CSV file
         df.to_csv("symptom_data.csv", index=False)
         st.success("아이의 증상이 저장되었습니다.")
-  
+###################################################################################################################
+elif selection == "menu3":
+    from streamlit_chat import message
+    import openai
+    import csv
+    st.title("아이봇 👩‍⚕️")
+    tab1= st.tabs(["아이봇 상담 👩‍⚕️"])
+    api_key=st.text_input("api key를 입력하세요:", key="user_input")
+    openai.api_key=api_key
+    with tab1:
+        conversation = [
+            {"role": "assistant", "content": f"아이의 증상과 상황을 알려주세요"},
+        ]
+        with st.form("chat_form", clear_on_submit=True):
+            user_input = st.text_input("상담 내용을 입력하세요:", key="user_input")
+            submitted = st.form_submit_button("입력")
+        if submitted and user_input:
+            conversation.append({
+                "role": "user",
+                "content": f"""몸무게가 {weight}kg, 키가 {height}cm인 {age}살 {gender} 아이가 {user_input}인 상황에서 가능한 치료방법이나 복용해야하는 약을 알려줘"""
+            },{
+                "role": "system",
+                "content": "You are a pediatrician. Speak like you are a professional in medical science"
+            }
+                )
+            response = openai.chat.completions.create(
+                model="gpt-4",
+                messages=conversation
+          )
+            answer=translator.translate_text(response.choices[0].message.content, target_lang="KO").text
+            conversation.append({"role": "assistant", "content": answer})
+        
+        
