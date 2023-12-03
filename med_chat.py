@@ -292,7 +292,7 @@ elif selection == "menu3":
     st.title("아이봇 상담👩‍⚕️")
     api_key=st.text_input("api key를 입력하세요:", key="api_key")
     openai.api_key=api_key
-    translator = deepl.Translator(DeepL_API_KEY)
+    translator = deepl.Translator(os.getenv("DeepL_API_KEY"))
 
     date = st.date_input("날짜를 선택하세요")
     st.divider()
