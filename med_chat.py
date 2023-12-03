@@ -291,17 +291,37 @@ elif selection == "menu3":
     st.title("아이봇 상담👩‍⚕️")
     api_key=st.text_input("api key를 입력하세요:", key="api_key")
     openai.api_key=api_key
+
+    date = st.date_input("날짜를 선택하세요")
+    st.divider()
+
+    child_list=[{'name': '신유정', 'gender':'여자', 'age': 5, 'height': 110.5, 'weight': 19.8},
+    {'name': '김민서', 'gender':'남자', 'age': 11, 'height': 145, 'weight': 40.5}]
+
+    childe_name_list=[child['name'] for child in child_list]
+    
+    #아이 선택하기 
+    child_choice = st.radio("아이를 선택하세요:", (child_name_list))
+
+    selected_child = next((child for child in child_list if child['name'] == child_choice), None)
+
+    if selected_child is not None:
+        st.write(f"성별: {selected_child['gender']} 아이")
+        st.write(f"나이: {selected_child['age']} 세")
+        st.write(f"키: {selected_child['height']} cm")
+        st.write(f"몸무게: {selected_child['weight']} kg")
+
     
     conversation = [
         {"role": "assistant", "content": f"아이의 증상과 상황을 알려주세요"},
     ]
     with st.form("chat_form", clear_on_submit=True):
-        user_input = st.text_input("상담 내용을 입력하세요:", key="user_input")
+        symptom = st.text_input("상담 내용을 입력하세요:", key="user_input")
         submitted = st.form_submit_button("입력")
     if submitted and user_input:
         conversation.append({
             "role": "user",
-            "content": f"""몸무게가 {weight}kg, 키가 {height}cm인 {age}살 {gender} 아이가 {user_input}인 상황에서 가능한 치료방법이나 복용해야하는 약을 알려줘"""
+            "content": f"""몸무게가 {weight}kg, 키가 {height}cm인 {age}살 {gender} 아이가 {symptom}인 상황에서 가능한 치료방법이나 복용해야하는 약을 알려줘"""
         },{
             "role": "system",
             "content": "You are a pediatrician. Speak like you are a professional in medical science"
