@@ -318,7 +318,7 @@ elif selection == "menu3":
     with st.form("chat_form", clear_on_submit=True):
         symptom = st.text_input("상담 내용을 입력하세요:", key="user_input")
         submitted = st.form_submit_button("입력")
-    if submitted and user_input:
+    if submitted and symptom:
         conversation.append({
             "role": "user",
             "content": f"""몸무게가 {weight}kg, 키가 {height}cm인 {age}살 {gender} 아이가 {symptom}인 상황에서 가능한 치료방법이나 복용해야하는 약을 알려줘"""
