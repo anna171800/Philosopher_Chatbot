@@ -334,6 +334,7 @@ elif selection == "menu3":
                           "content": "You are a pediatrician. Speak like you are a professional in medical science"
                       }
                      ]
+        )
         answer=translator.translate_text(response.choices[0].message.content, target_lang="KO").text
         conversation.append({"role": "assistant", "content": answer})
 
