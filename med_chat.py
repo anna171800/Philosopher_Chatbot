@@ -298,7 +298,7 @@ elif selection == "menu3":
     child_list=[{'name': '신유정', 'gender':'여자', 'age': 5, 'height': 110.5, 'weight': 19.8},
     {'name': '김민서', 'gender':'남자', 'age': 11, 'height': 145, 'weight': 40.5}]
 
-    childe_name_list=[child['name'] for child in child_list]
+    child_name_list=[child['name'] for child in child_list]
     
     #아이 선택하기 
     child_choice = st.radio("아이를 선택하세요:", (child_name_list))
