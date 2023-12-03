@@ -292,6 +292,7 @@ elif selection == "menu3":
     tab1= st.tabs(["아이봇 상담 👩‍⚕️"])
     api_key=st.text_input("api key를 입력하세요:", key="user_input")
     openai.api_key=api_key
+    
     with tab1:
         conversation = [
             {"role": "assistant", "content": f"아이의 증상과 상황을 알려주세요"},
