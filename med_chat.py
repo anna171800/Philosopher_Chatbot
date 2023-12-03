@@ -220,7 +220,7 @@ elif selection == "menu2":
     from streamlit_chat import message
     import openai
     st.title("우리아이 육아일기 🧒📑")
-    tab1 = st.tabs(["우리 아이 정보", "챗봇"])
+    tab1, tab2 = st.tabs(["우리 아이 정보", "챗봇"])
 
     with tab1:
         date = st.date_input("날짜를 선택하세요")
