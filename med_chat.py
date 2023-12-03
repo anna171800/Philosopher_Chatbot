@@ -289,7 +289,7 @@ elif selection == "menu3":
     import openai
     import csv
     st.title("아이봇 상담👩‍⚕️")
-    st.text_input("api key를 입력하세요:", key="api_key")
+    api_key=st.text_input("api key를 입력하세요:", key="api_key")
     openai.api_key=api_key
     
     conversation = [
