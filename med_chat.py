@@ -310,6 +310,10 @@ elif selection == "menu3":
         st.write(f"나이: {selected_child['age']} 세")
         st.write(f"키: {selected_child['height']} cm")
         st.write(f"몸무게: {selected_child['weight']} kg")
+        gender=selected_child['gender']
+        age=selected_child['age']
+        height=selected_child['height']
+        weight=selected_child['weight']
 
     
     conversation = [
