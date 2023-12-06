@@ -9,7 +9,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # OpenAI API 키 설정
-openai.api_key = os.getenv("OPENAI_API_KEY")
+os.environ["OPEN_API_KEY"] = st.secrets["OPENAI_API_KEY"]
+openai.api_key = os.environ["OPEN_API_KEY"]
 
 #DeepL API 키 설정
 translator = deepl.Translator(os.getenv("DeepL_API_KEY"))
