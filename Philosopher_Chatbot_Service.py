@@ -36,8 +36,6 @@ st.title('🧔📚 철학자와 대화하기')
 # 컬럼 생성하여 나란히 배열
 col1, col2, col3 = st.columns(3)
 
-#초기화
-st.session_state.messages = []
 
 # 첫 번째 컬럼에 철학자 선택
 # 사용자 선택에 따라 프롬프트 설정
