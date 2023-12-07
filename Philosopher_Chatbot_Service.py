@@ -58,9 +58,11 @@ selected_model_final = available_models[selected_model]
 
 # session_state에 messages 리스트 초기화
 if "messages" not in st.session_state:
+    system_message="너는 %s야. AI챗봇처럼 대답하지말고, %s가 말하는 것처럼 대답해줘"%(chosen_philosopher, chosen_philosopher)
+    system_message_eng=translator.translate_text(system_message, target_lang="EN-US").text
     st.session_state.messages = [
         {"role": "system", 
-         "content": "You are %s. Do not act like a chatbot and just be %s himself" % (chosen_philosopher, chosen_philosopher)}
+         "content": system_message_eng}
     ]
     
 # 폼 생성
@@ -74,49 +76,39 @@ with st.form(key='message_form'):
 
 if submit_button and user_message:
     #user_message_en=translator.translate_text(user_message, target_lang="EN-US").text
+    user_prompt="""
+        상담내용: %s
+        위 상담 내용에 대해서 %s의 사상을 바탕으로 %d자 이내로, %s가 상담해주듯이 %s의 말투를 사용해서 대답해줘.
+        """%(user_message, chosen_philosopher, max_tokens, chosen_philosopher, chosen_philosopher)
+    user_prompt_eng=translator.translate_text(user_prompt, target_lang="KO").text
     st.session_state.messages.append({"role": "user", 
-                                      "content": selected_prompt + 'Answer about ' + user_message + ' in ' + str(max_tokens) +' words, just like ' + selected_prompt.split(' ')[9].replace(',','') + ' counsel'})
+                                      "content": user_prompt_eng})
 
     # OpenAI GPT-3.5-turbo를 사용해 응답 생성
     response = openai.chat.completions.create(
             model=selected_model_final,
             messages=st.session_state.messages, 
         )
-
-    message_content = response.choices[0].message["content"]
+    answer = translator.translate_text(response.choices[0].message.content, target_lang='KO').text
     if 'messages' not in st.session_state:
         st.session_state.messages = []
-    st.session_state.messages.append({"role": "assistant", "content": message_content})
+    st.session_state.messages.append({"role": "assistant", "content": answer +'@@@'+user_message +'@@@'+chosen_philosopher})
 
 # 대화 로그 및 상태 초기화 버튼들
 if st.button("대화 다시 시작하기"):
-    st.session_state.messages = [
-        {"role": "system", 
-         "content": "You are %s. Do not act like a chatbot and just be %s himself" % (selected_prompt.split(' ')[9].replace(',','') , selected_prompt.split(' ')[9].replace(',',''))}
-    ]
+    st.session_state.messages = []
+    #st.session_state.messages = [
+        #{"role": "system", 
+         #"content": "You are %s. Do not act like a chatbot and just be %s himself" % (selected_prompt.split(' ')[9].replace(',','') , selected_prompt.split(' ')[9].replace(',',''))}
+    #]
 
 st.subheader("📝 대화 로그")
 for message in st.session_state.messages:
-    if message["role"] == "user":
-        role_1 = "🙋‍♂️나: "
-        question = message['content']
-        pattern_1 = "Answer about (.*?) in"
-        match_1 = re.search(pattern_1, question)
-        if match_1:
-            result_1 = match_1.group(1)
-        pattern_2= 'like (.*?) counsel'
-        match_2= re.search(pattern_2, question)
-        if match_2:
-            result_2 = match_2.group(1)
-        result_2=translator.translate_text(result_2, target_lang="KO").text
-        if result_2=='Lao':
-            role_2="🧔노자:"
-        else:
-            role_2 = "🧔%s:"%result_2
-        st.write(f"{role_1}")
-        st.write(f"{result_1}")
-        st.write(f"{role_2}")
-    elif message['role'] == 'assistant':
-        answer= message['content']
-        answer = translator.translate_text(answer, target_lang="KO").text
+    if message["role"] == "assistant":
+        input_message = message['content'].split('@@@')[1]
+        st.write("🙋‍♂나:")
+        st.write(input_message)
+        st.write("_________________________________________________________________________________________________________")
+        st.write("🧔%s:"%(message['content'].split('@@@')[2]))
+        answer_message= message['content'].split('@@@')[0]
         st.write(f"{answer}")
