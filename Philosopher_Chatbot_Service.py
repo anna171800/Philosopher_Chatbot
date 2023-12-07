@@ -78,7 +78,7 @@ if submit_button and user_message:
     #user_message_en=translator.translate_text(user_message, target_lang="EN-US").text
     user_prompt="""
         상담 내용: %s
-        위 상담 내용에 대해서 %s의 사상을 바탕으로 %d자 이내로, %s의 말투를 사용해서 친절하게 상담해줘.
+        위 상담 내용에 대해서 %s의 사상을 바탕으로 %d자 이내로, %s의 말투를 사용해서 마치 %s가 말하듯이 친절하게 상담해줘.
         """%(user_message, chosen_philosopher, max_tokens, chosen_philosopher, chosen_philosopher)
     user_prompt_eng=translator.translate_text(user_prompt, target_lang="KO").text
     st.session_state.messages.append({"role": "user", 
