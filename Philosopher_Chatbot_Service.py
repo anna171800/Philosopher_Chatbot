@@ -85,7 +85,7 @@ if submit_button and user_message:
         """%(user_message, chosen_philosopher, max_tokens, chosen_philosopher, chosen_philosopher)
     user_prompt_eng=translator.translate_text(user_prompt, target_lang="KO").text
     st.session_state.messages.append({"role": "user", 
-                                      "content": user_prompt_eng})
+                                      "content": user_prompt_eng+'@@@'+user_message})
 
     # OpenAI GPT-3.5-turbo를 사용해 응답 생성
     response = openai.chat.completions.create(
@@ -95,7 +95,7 @@ if submit_button and user_message:
     answer = translator.translate_text(response.choices[0].message.content, target_lang='KO').text
     if 'messages' not in st.session_state:
         st.session_state.messages = []
-    st.session_state.messages.append({"role": "assistant", "content": answer +'@@@'+user_message +'@@@'+chosen_philosopher})
+    st.session_state.messages.append({"role": "assistant", "content": answer+'@@@'+chosen_philosopher})
 
 # 대화 로그 및 상태 초기화 버튼들
 if st.button("대화 다시 시작하기"):
@@ -108,12 +108,14 @@ if st.button("대화 다시 시작하기"):
 st.subheader("📝 대화 로그")
 st.write("_________________________________________________________________________________________________________")
 for message in st.session_state.messages:
-    if message["role"] == "assistant":
+    if message["role"] == "user":
         input_message = message['content'].split('@@@')[1]
         st.write("🙋‍♂나:")
         st.write(input_message)
         st.write("_________________________________________________________________________________________________________")
-        st.write("🧔 %s:"%(message['content'].split('@@@')[2]))
-        answer_message= message['content'].split('@@@')[0]
-        st.write(f"{answer}")
+    if message["role"] == "assistant":
+        gpt_answer = message['content']
+        st.write("🧔 %s: "%(message['content'].split('@@@')[1])
+        st.write(f"{gpt_answer}")
         st.write("_________________________________________________________________________________________________________")
+            
