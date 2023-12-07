@@ -2,7 +2,7 @@ import openai
 import streamlit as st
 import re
 import deepl
-import os
+import os 
 from dotenv import load_dotenv
 
 # .env 파일 불러오기
