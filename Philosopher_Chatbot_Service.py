@@ -113,9 +113,9 @@ for message in st.session_state.messages:
         st.write("🙋‍♂나:")
         st.write(input_message)
         st.write("_________________________________________________________________________________________________________")
-    if message["role"] == "assistant":
+    elif message["role"] == "assistant":
         gpt_answer = message['content']
-        st.write("🧔 %s: "%(message['content'].split('@@@')[1])
+        st.write("🧔 %s: "%(message['content'].split('@@@')[1]))
         st.write(f"{gpt_answer}")
         st.write("_________________________________________________________________________________________________________")
             
