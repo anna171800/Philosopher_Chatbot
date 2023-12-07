@@ -16,7 +16,7 @@ openai.api_key = os.environ["OPEN_API_KEY"]
 translator = deepl.Translator(os.getenv("DeepL_API_KEY"))
 
 # 사용 가능한 철학자와 대화 프롬프트 목록
-philosophers =["니체" '칸트', '맹자', '노자']
+philosophers =["니체", '칸트', '맹자', '노자']
 #칸트": "In the manner of and with the ideas of Kant, ",
     #"맹자": "In the manner of and with the ideas of Mencius, ",
     #"노자": "In the manner of and with the ideas of Lao Tzu, "
@@ -109,6 +109,6 @@ for message in st.session_state.messages:
         st.write("🙋‍♂나:")
         st.write(input_message)
         st.write("_________________________________________________________________________________________________________")
-        st.write("🧔%s:"%(message['content'].split('@@@')[2]))
+        st.write("🧔 %s:"%(message['content'].split('@@@')[2]))
         answer_message= message['content'].split('@@@')[0]
         st.write(f"{answer}")
