@@ -16,12 +16,10 @@ openai.api_key = os.environ["OPEN_API_KEY"]
 translator = deepl.Translator(os.getenv("DeepL_API_KEY"))
 
 # 사용 가능한 철학자와 대화 프롬프트 목록
-philosophers = {
-    "니체": "In the manner of and with the ideas of Nietzsche, ",
-    "칸트": "In the manner of and with the ideas of Kant, ",
-    "맹자": "In the manner of and with the ideas of Mencius, ",
-    "노자": "In the manner of and with the ideas of Lao Tzu, "
-}
+philosophers =["니체" '칸트', '맹자', '노자']
+#칸트": "In the manner of and with the ideas of Kant, ",
+    #"맹자": "In the manner of and with the ideas of Mencius, ",
+    #"노자": "In the manner of and with the ideas of Lao Tzu, "
 
 # 답변 길이 목록
 len_select = {"짧은 답변 📑": 50, "긴 답변 📜": 200}
@@ -41,8 +39,8 @@ col1, col2, col3 = st.columns(3)
 # 첫 번째 컬럼에 철학자 선택
 # 사용자 선택에 따라 프롬프트 설정
 with col1:
-    selected_philosopher = st.radio("👨‍🏫 철학자 선택:", list(philosophers.keys()))
-selected_prompt = philosophers[selected_philosopher]
+    selected_philosopher = st.radio("👨‍🏫 철학자 선택:", philosophers)
+chosen_philosopher=selected_philosopher
 
 # 두 번째 컬럼에 답변 길이 선택
 # 답변 길이 설정 버튼
@@ -62,7 +60,7 @@ selected_model_final = available_models[selected_model]
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "system", 
-         "content": "You are %s. Do not act like a chatbot and just be %s himself" % (selected_prompt.split(' ')[9], selected_prompt.split(' ')[9])}
+         "content": "You are %s. Do not act like a chatbot and just be %s himself" % (chosen_philosopher, chosen_philosopher)}
     ]
     
 # 폼 생성
@@ -80,10 +78,10 @@ if submit_button and user_message:
                                       "content": selected_prompt + 'Answer about ' + user_message + ' in ' + str(max_tokens) +' words, just like ' + selected_prompt.split(' ')[9].replace(',','') + ' counsel'})
 
     # OpenAI GPT-3.5-turbo를 사용해 응답 생성
-    response = openai.ChatCompletion.create(
-        model=selected_model_final,
-        messages=st.session_state.messages  # 전체 메시지 리스트를 API에 전송
-    )
+    response = openai.chat.completions.create(
+            model=selected_model_final,
+            messages=st.session_state.messages, 
+        )
 
     message_content = response.choices[0].message["content"]
     if 'messages' not in st.session_state:
