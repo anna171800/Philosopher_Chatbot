@@ -22,7 +22,7 @@ philosophers =["니체", '칸트', '맹자', '노자']
     #"노자": "In the manner of and with the ideas of Lao Tzu, "
 
 # 답변 길이 목록
-len_select = {"짧은 답변 📑": 50, "긴 답변 📜": 200}
+len_select = {"짧은 답변 📑": 100, "긴 답변 📜": 300}
 
 #사용가능 모델 목록
 available_models = {
@@ -77,8 +77,8 @@ with st.form(key='message_form'):
 if submit_button and user_message:
     #user_message_en=translator.translate_text(user_message, target_lang="EN-US").text
     user_prompt="""
-        상담내용: %s
-        위 상담 내용에 대해서 %s의 사상을 바탕으로 %d자 이내로, %s가 상담해주듯이 %s의 말투를 사용해서 대답해줘.
+        상담 내용: %s
+        위 상담 내용에 대해서 %s의 사상을 바탕으로 %d자 이내로, %s의 말투를 사용해서 친절하게 상담해줘.
         """%(user_message, chosen_philosopher, max_tokens, chosen_philosopher, chosen_philosopher)
     user_prompt_eng=translator.translate_text(user_prompt, target_lang="KO").text
     st.session_state.messages.append({"role": "user", 
@@ -103,6 +103,7 @@ if st.button("대화 다시 시작하기"):
     #]
 
 st.subheader("📝 대화 로그")
+st.write("_________________________________________________________________________________________________________")
 for message in st.session_state.messages:
     if message["role"] == "assistant":
         input_message = message['content'].split('@@@')[1]
