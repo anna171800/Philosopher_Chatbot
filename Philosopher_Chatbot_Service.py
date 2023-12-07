@@ -113,3 +113,4 @@ for message in st.session_state.messages:
         st.write("🧔 %s:"%(message['content'].split('@@@')[2]))
         answer_message= message['content'].split('@@@')[0]
         st.write(f"{answer}")
+        st.write("_________________________________________________________________________________________________________")
