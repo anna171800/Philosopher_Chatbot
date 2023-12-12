@@ -4,7 +4,8 @@ import re
 import deepl
 import os 
 from dotenv import load_dotenv
-
+import pandas as pd
+import numpy as np
 # .env 파일 불러오기
 load_dotenv()
 
@@ -29,6 +30,56 @@ available_models = {
     "GPT-3.5-Turbo": "gpt-3.5-turbo",
     "GPT-4": "gpt-4"
 }
+
+#Text Embedding 데이터 불러오기
+data_url='https://drive.google.com/file/d/1HC8WBybCVfhPN1Tr4a8eKA418azI_d3M/view?usp=sharing'
+data_url='https://drive.google.com/uc?id=' + data_url.split('/')[-2]
+df = pd.read_pickle(data_url)
+df.reset_index(inplace=True)
+df.rename(columns={'index': 'philosopher'}, inplace=True)
+
+#sentence transformer
+from sentence_transformers import SentenceTransformer, util
+
+model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+
+#코사인 유사도 구하기
+import torch
+import torch.nn.functional as F
+
+def cosine_similarity(tensor1, tensor2):
+    # 두 텐서 간의 코사인 유사도를 계산합니다.
+    return F.cosine_similarity(tensor1, tensor2).item()
+
+def print_similarity(question: str, philosopher: str, doc=df):
+
+    # 허용된 경제 사상의 목록
+    allowed_thoughts = {'니체','칸트','소크라테스', '공자', '노자'}
+
+    # 입력된 경제 사상이 허용된 목록에 속하지 않으면 오류 메시지를 반환
+    if philosopher not in allowed_thoughts:
+        raise ValueError("""
+        불가능한 철학자입니다.
+        '니체', '칸트', '소크라테스' '공자' '노자' 중 선택하세요.
+        """)
+
+    model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+
+    # 주어진 질문에 대한 임베딩을 계산합니다.
+    question_embedding = model.encode(question, convert_to_tensor=True).unsqueeze(0)
+
+    # 사상에 맞는 텍스트 임베딩을 스택합니다.
+    doc2 = doc[doc['philosopher'] == philosopher]
+    all_embeddings = torch.stack(doc2['embedding'].tolist())
+
+    # 각 문서의 임베딩과 질문의 임베딩 간의 유사도를 계산합니다.
+    similarities = F.cosine_similarity(question_embedding, all_embeddings, dim=1)
+
+    # 유사도를 기준으로 상위 3개의 인덱스를 가져옵니다.
+    top_indices = similarities.argsort(descending=True)[:3]
+
+    # 상위 3개의 문서를 반환합니다.
+    return doc2.iloc[top_indices]['paragraph']
 
 # Streamlit 앱 설정
 st.title('🧔📚 철학자와 대화하기')
@@ -77,10 +128,17 @@ with st.form(key='message_form'):
 
 if submit_button and user_message:
     #user_message_en=translator.translate_text(user_message, target_lang="EN-US").text
+    input_eng=translator.translate_text(user_message, target_lang="KO").text
+    input_text=print_similarity(input_eng, chosen_philosopher, doc=df)
     user_prompt="""
         상담 내용: %s
-        위 상담 내용에 대해서 %s의 사상을 바탕으로 %d자 이내로, %s의 말투를 사용해서 마치 %s가 말하듯이 친절하게 상담해줘.
-        """%(user_message, chosen_philosopher, max_tokens, chosen_philosopher, chosen_philosopher)
+        아래에는 %s이 쓴 저서의 구절이야.
+            1. {input_text.iloc[0]}
+            2. {input_text.iloc[1]}
+            3. {input_text.iloc[2]}
+        위 상담 내용에 대해, 위 구절과 %s의 사상을 바탕으로 %d자 이내로, %s의 말투를 사용해서 마치 %s가 말하듯이 친절하게 상담해줘.
+        """%(user_message, chosen_philosopher, input_text.iloc[0], input_text.iloc[1], input_text.iloc[2], 
+             chosen_philosopher, max_tokens, chosen_philosopher, chosen_philosopher)
     user_prompt_eng=translator.translate_text(user_prompt, target_lang="KO").text
     st.session_state.messages.append({"role": "user", 
                                       "content": user_prompt_eng+'@@@'+user_message})
