@@ -51,7 +51,7 @@ def cosine_similarity(tensor1, tensor2):
     # 두 텐서 간의 코사인 유사도를 계산합니다.
     return F.cosine_similarity(tensor1, tensor2).item()
 
-def print_similarity(question: str, philosopher: str, doc=df):
+def print_similarity(question, philosopher, doc):
 
     # 허용된 경제 사상의 목록
     allowed_thoughts = {'니체','칸트','소크라테스', '공자', '노자'}
