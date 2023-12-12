@@ -205,8 +205,7 @@ for message in st.session_state.messages:
     if message["role"] == "user":
         input_message = message['content'].split('@@@')[1]
         st.write("🙋‍♂나:")
-        st.write(input_message)
-        st.write(message['content'])
+        st.write(input_message))
         st.write("_________________________________________________________________________________________________________")
         parts = message['content'].split('|')
         for part in parts[1:-1]:
