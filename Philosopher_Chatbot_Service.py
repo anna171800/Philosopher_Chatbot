@@ -157,8 +157,8 @@ def create_ko_chat_message(philosopher, question, input_text, max_tokens):
     user_prompt="""
         상담 내용: %s \n
         아래에는 %s의 저서의 구절이야.\n
-            |1. {%s}
-            2. {%s}
+            |1. {%s}\n
+            2. {%s}\n
             3. {%s}| \n
         위 상담 내용에 대해, 위 구절과 %s의 사상을 바탕으로 %d 단어 이내로, %s의 말투를 사용해서 마치 %s인 것처럼 친절하게 상담해줘.
         """%(question, philosopher, input_text.iloc[0], input_text.iloc[1], input_text.iloc[2], 
@@ -213,6 +213,8 @@ for message in st.session_state.messages:
         # 첫 번째와 마지막 부분을 제외한 모든 요소를 출력
         # 첫 번째와 마지막 요소는 | 앞과 뒤의 빈 문자열
         for part in parts[1:-1]:
+            part=part.replace('{', ' ')
+            part=part.replace('}', ' ')
             st.write(part)
     elif message["role"] == "assistant":
         gpt_answer = message['content'].split('@@@')[0]
