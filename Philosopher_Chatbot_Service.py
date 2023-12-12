@@ -208,14 +208,13 @@ for message in st.session_state.messages:
         st.write(input_message)
         st.write(message['content'])
         st.write("_________________________________________________________________________________________________________")
-        st.write("참고 저서: \n" )
+        st.write("참고 저서: " )
         parts = message['content'].split('|')
-        # 첫 번째와 마지막 부분을 제외한 모든 요소를 출력
-        # 첫 번째와 마지막 요소는 | 앞과 뒤의 빈 문자열
         for part in parts[1:-1]:
             part=part.replace('{', ' ')
             part=part.replace('}', ' ')
-            st.write(part, '\n')
+            formatted_text = re.sub(r"(\d+\.)", r"\n\1", part)
+            st.write(formatted_text)
     elif message["role"] == "assistant":
         gpt_answer = message['content'].split('@@@')[0]
         st.write("🧔 %s: "%(message['content'].split('@@@')[1]))
