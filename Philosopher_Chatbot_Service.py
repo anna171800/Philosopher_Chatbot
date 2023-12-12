@@ -139,6 +139,9 @@ if submit_button and user_message:
         위 상담 내용에 대해, 위 구절과 %s의 사상을 바탕으로 %d자 이내로, %s의 말투를 사용해서 마치 %s가 말하듯이 친절하게 상담해줘.
         """%(user_message, chosen_philosopher, input_text.iloc[0], input_text.iloc[1], input_text.iloc[2], 
              chosen_philosopher, max_tokens, chosen_philosopher, chosen_philosopher)
+    print(input_text.iloc[0])
+    print(input_text.iloc[1])
+    print(input_text.iloc[2])
     user_prompt_eng=translator.translate_text(user_prompt, target_lang="KO").text
     st.session_state.messages.append({"role": "user", 
                                       "content": user_prompt_eng+'@@@'+user_message})
