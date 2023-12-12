@@ -33,7 +33,11 @@ available_models = {
 
 #Text Embedding 데이터 불러오기
 data_url='https://drive.google.com/uc?id=1wvm_N5-WIfxGrTJ0yI5y91IYMgccyzbh'
-df = pd.read_pickle(data_url)
+response = requests.get(url)
+file_stream = io.BytesIO(response.content)
+
+# pandas로 피클 파일 읽기
+df = pd.read_pickle(file_stream)
 df.reset_index(inplace=True)
 df.rename(columns={'index': 'philosopher'}, inplace=True)
 
