@@ -133,9 +133,8 @@ def create_eng_chat_message(philosopher, question, input_text, max_tokens):
             |1. {%s}
             2. {%s}
             3. {%s}| \n
-        Answer about question above, based on the texts above and %s's ideas, in the manner of %s %d words.
-        """%(question, philosopher, input_text.iloc[0], input_text.iloc[1], input_text.iloc[2], 
-             philosopher, max_tokens)
+        Answer about question above, based on the texts above and %s's ideas, in the manner of %s, in %d words.
+        """%(question, philosopher, input_text.iloc[0], input_text.iloc[1], input_text.iloc[2], philosopher, philosopher, max_tokens)
     st.session_state.messages.append({"role": "user", 
                                       "content": user_prompt+'@@@'+question})
 
