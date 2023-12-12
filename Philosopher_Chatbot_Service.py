@@ -131,15 +131,15 @@ if submit_button and user_message:
     input_eng=translator.translate_text(user_message, target_lang="KO").text
     input_text=print_similarity(input_eng, chosen_philosopher, doc=df)
     user_prompt="""
-        상담 내용: %s
-        아래에는 %s이 쓴 저서의 구절이야.
-            1. ({%s}
+        상담 내용: %s \n
+        아래에는 %s의 저서의 구절이야.\n
+            (1. {%s}
             2. {%s}
             3. {%s})
         위 상담 내용에 대해, 위 구절과 %s의 사상을 바탕으로 %d자 이내로, %s의 말투를 사용해서 마치 %s가 말하듯이 친절하게 상담해줘.
         """%(user_message, chosen_philosopher, input_text.iloc[0], input_text.iloc[1], input_text.iloc[2], 
              chosen_philosopher, max_tokens, chosen_philosopher, chosen_philosopher)
-    user_prompt_eng=translator.translate_text(user_prompt, target_lang="KO").text
+    user_prompt_eng=translator.translate_text(user_prompt, target_lang="EN-US").text
     st.session_state.messages.append({"role": "user", 
                                       "content": user_prompt_eng+'@@@'+user_message})
 
