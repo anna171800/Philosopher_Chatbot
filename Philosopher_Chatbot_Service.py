@@ -32,8 +32,7 @@ available_models = {
 }
 
 #Text Embedding 데이터 불러오기
-data_url='https://drive.google.com/file/d/1HC8WBybCVfhPN1Tr4a8eKA418azI_d3M/view?usp=sharing'
-data_url='https://drive.google.com/uc?id=' + data_url.split('/')[-2]
+data_url='https://drive.google.com/uc?id=1HC8WBybCVfhPN1Tr4a8eKA418azI_d3M'
 df = pd.read_pickle(data_url)
 df.reset_index(inplace=True)
 df.rename(columns={'index': 'philosopher'}, inplace=True)
