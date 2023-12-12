@@ -134,7 +134,6 @@ def create_eng_chat_message(philosopher, question, input_text, max_tokens):
             2. {%s}
             3. {%s}| \n
         Answer about question above, based on the texts above and %s's ideas, in the manner of %s %d words.
-        위 상담 내용에 대해, 위 구절과 %s의 사상을 바탕으로 %d자 이내로, %s의 말투를 사용해서 마치 %s가 말하듯이 친절하게 상담해줘.
         """%(question, philosopher, input_text.iloc[0], input_text.iloc[1], input_text.iloc[2], 
              philosopher, max_tokens)
     st.session_state.messages.append({"role": "user", 
@@ -177,7 +176,7 @@ if submit_button and user_message:
     philosopher_eng = philosopher if chosen_philosopher in ['공자', '노자'] else translator.translate_text(chosen_philosopher, target_lang='EN-US').text
     question_text = question if chosen_philosopher in ['공자', '노자'] else translator.translate_text(input_question, target_lang='EN-US').text
 
-    if philosopher not in ['공자', '노자']:
+    if chosen_philosopher not in ['공자', '노자']:
         answer = create_eng_chat_message(philosopher_eng, question_text, input_text, max_tokens)
     else:
         answer = create_kor_chat_message(philosopher, question_text, input_text, max_tokens)
