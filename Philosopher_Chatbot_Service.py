@@ -153,7 +153,7 @@ def create_ko_chat_message(philosopher, question, input_text, max_tokens):
             |1. {%s}
             2. {%s}
             3. {%s}| \n
-        위 상담 내용에 대해, 위 구절과 %s의 사상을 바탕으로 %d자 이내로, %s의 말투를 사용해서 마치 %s가 말하듯이 친절하게 상담해줘.
+        위 상담 내용에 대해, 위 구절과 %s의 사상을 바탕으로 %d 단어 이내로, %s의 말투를 사용해서 마치 %s가 말하듯이 친절하게 상담해줘.
         """%(question, philosopher, input_text.iloc[0], input_text.iloc[1], input_text.iloc[2], 
              philosopher, max_tokens, philosopher, philosopher)
     user_prompt_eng=translator.translate_text(user_prompt, target_lang="EN-US").text
