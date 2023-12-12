@@ -133,7 +133,7 @@ with st.form(key='message_form'):
     # 폼 제출 버튼 추가
     submit_button = st.form_submit_button(label='전송')
     
-def create_eng_chat_message(philosopher, question, input_text, max_tokens):
+def create_eng_chat_message(philosopher, question, input_text, max_tokens,question_ko):
     user_prompt="""
         question: %s\n 
         Below texts are written by %s\n
@@ -141,7 +141,7 @@ def create_eng_chat_message(philosopher, question, input_text, max_tokens):
         Answer about question above, based on the texts above and %s's ideas, in the manner of %s, in %d words.
         """%(question, philosopher, input_text.iloc[0], input_text.iloc[1], input_text.iloc[2], philosopher, philosopher, max_tokens)
     st.session_state.messages.append({"role": "user", 
-                                      "content": user_prompt+'@@@'+question})
+                                      "content": user_prompt+'@@@'+question_ko})
 
     # OpenAI GPT-3.5-turbo를 사용해 응답 생성
     response = openai.chat.completions.create(
@@ -179,7 +179,7 @@ if submit_button and user_message:
     question_text = input_question if chosen_philosopher in ['공자', '노자'] else translator.translate_text(input_question, target_lang='EN-US').text
 
     if chosen_philosopher not in ['공자', '노자']:
-        answer = create_eng_chat_message(philosopher_eng, question_text, input_text, max_tokens)
+        answer = create_eng_chat_message(philosopher_eng, question_text, input_text, max_tokens, user_message)
     else:
         answer = create_ko_chat_message(chosen_philosopher, input_question, input_text, max_tokens)
    
