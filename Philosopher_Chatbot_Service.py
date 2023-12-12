@@ -128,7 +128,7 @@ with st.form(key='message_form'):
 
 if submit_button and user_message:
     #user_message_en=translator.translate_text(user_message, target_lang="EN-US").text
-    input_eng=translator.translate_text(user_message, target_lang="KO").text
+    input_eng=translator.translate_text(user_message, target_lang="EN-US").text
     input_text=print_similarity(input_eng, chosen_philosopher, doc=df)
     user_prompt="""
         상담 내용: %s \n
