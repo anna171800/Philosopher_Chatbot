@@ -17,7 +17,7 @@ openai.api_key = os.environ["OPEN_API_KEY"]
 translator = deepl.Translator(os.getenv("DeepL_API_KEY"))
 
 # 사용 가능한 철학자와 대화 프롬프트 목록
-philosophers =["니체", '칸트', '맹자', '노자']
+philosophers =["니체", '칸트', '공자', '노자']
 #칸트": "In the manner of and with the ideas of Kant, ",
     #"맹자": "In the manner of and with the ideas of Mencius, ",
     #"노자": "In the manner of and with the ideas of Lao Tzu, "
@@ -54,13 +54,13 @@ def cosine_similarity(tensor1, tensor2):
 def print_similarity(question, philosopher, doc):
 
     # 허용된 경제 사상의 목록
-    allowed_thoughts = {'니체','칸트','소크라테스', '공자', '노자'}
+    allowed_thoughts = {'니체','칸트', '공자', '노자'}
 
     # 입력된 경제 사상이 허용된 목록에 속하지 않으면 오류 메시지를 반환
     if philosopher not in allowed_thoughts:
         raise ValueError("""
         불가능한 철학자입니다.
-        '니체', '칸트', '소크라테스' '공자' '노자' 중 선택하세요.
+        '니체', '칸트', '공자', '노자' 중 선택하세요.
         """)
 
     model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
@@ -125,23 +125,20 @@ with st.form(key='message_form'):
     
     # 폼 제출 버튼 추가
     submit_button = st.form_submit_button(label='전송')
-
-if submit_button and user_message:
-    #user_message_en=translator.translate_text(user_message, target_lang="EN-US").text
-    input_eng=translator.translate_text(user_message, target_lang="EN-US").text
-    input_text=print_similarity(input_eng, chosen_philosopher, doc=df)
+    
+def create_eng_chat_message(philosopher, question, input_text, max_tokens):
     user_prompt="""
-        상담 내용: %s \n
-        아래에는 %s의 저서의 구절이야.\n
+        question: %s \n 
+        Below texts are written by %s \n
             |1. {%s}
             2. {%s}
             3. {%s}| \n
+        Answer about question above, based on the texts above and %s's ideas, in the manner of %s %d words.
         위 상담 내용에 대해, 위 구절과 %s의 사상을 바탕으로 %d자 이내로, %s의 말투를 사용해서 마치 %s가 말하듯이 친절하게 상담해줘.
-        """%(user_message, chosen_philosopher, input_text.iloc[0], input_text.iloc[1], input_text.iloc[2], 
-             chosen_philosopher, max_tokens, chosen_philosopher, chosen_philosopher)
-    user_prompt_eng=translator.translate_text(user_prompt, target_lang="EN-US").text
+        """%(question, philosopher, input_text.iloc[0], input_text.iloc[1], input_text.iloc[2], 
+             philosopher, max_tokens)
     st.session_state.messages.append({"role": "user", 
-                                      "content": user_prompt_eng+'@@@'+user_message})
+                                      "content": user_prompt+'@@@'+question})
 
     # OpenAI GPT-3.5-turbo를 사용해 응답 생성
     response = openai.chat.completions.create(
@@ -149,6 +146,42 @@ if submit_button and user_message:
             messages=st.session_state.messages, 
         )
     answer = translator.translate_text(response.choices[0].message.content, target_lang='KO').text
+    return answer
+
+def create_ko_chat_message(philosopher, question, input_text, max_tokens):
+    user_prompt="""
+        상담 내용: %s \n
+        아래에는 %s의 저서의 구절이야.\n
+            |1. {%s}
+            2. {%s}
+            3. {%s}| \n
+        위 상담 내용에 대해, 위 구절과 %s의 사상을 바탕으로 %d자 이내로, %s의 말투를 사용해서 마치 %s가 말하듯이 친절하게 상담해줘.
+        """%(question, philosopher, input_text.iloc[0], input_text.iloc[1], input_text.iloc[2], 
+             philosopher, max_tokens, philosopher, philosopher)
+    user_prompt_eng=translator.translate_text(user_prompt, target_lang="EN-US").text
+    st.session_state.messages.append({"role": "user", 
+                                      "content": user_prompt_eng+'@@@'+question})
+
+    # OpenAI GPT-3.5-turbo를 사용해 응답 생성
+    response = openai.chat.completions.create(
+            model=selected_model_final,
+            messages=st.session_state.messages, 
+        )
+    answer = translator.translate_text(response.choices[0].message.content, target_lang='KO').text
+    return answer
+
+if submit_button and user_message:
+    #user_message_en=translator.translate_text(user_message, target_lang="EN-US").text
+    input_question= user_message if chosen_philosopher in ['공자', '노자'] else translator.translate_text(user_message, target_lang='EN-US').text
+    input_text=print_similarity(input_question, chosen_philosopher)
+    philosopher_eng = philosopher if chosen_philosopher in ['공자', '노자'] else translator.translate_text(chosen_philosopher, target_lang='EN-US').text
+    question_text = question if chosen_philosopher in ['공자', '노자'] else translator.translate_text(input_question, target_lang='EN-US').text
+
+    if philosopher not in ['공자', '노자']:
+        answer = create_eng_chat_message(philosopher_eng, question_text, input_text, max_tokens)
+    else:
+        answer = create_kor_chat_message(philosopher, question_text, input_text, max_tokens)
+   
     if 'messages' not in st.session_state:
         st.session_state.messages = []
     st.session_state.messages.append({"role": "assistant", "content": answer+'@@@'+chosen_philosopher})
