@@ -7,3 +7,5 @@ openai
 deepl
 xmltodict
 python-dotenv
+langdetect
+sentence_transformers
