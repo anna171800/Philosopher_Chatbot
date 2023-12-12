@@ -214,7 +214,7 @@ for message in st.session_state.messages:
             part=part.replace('{', ' ')
             part=part.replace('}', ' ')
             part_ko=translator.translate_text(part, target_lang='KO').text
-            formatted_text = re.sub(r"(\d+\.)", r"\1\n", part_ko)
+            formatted_text = re.sub(r"(\d+\.)", r"\n\1", part_ko)
             st.write(formatted_text)
     elif message["role"] == "assistant":
         gpt_answer = message['content'].split('@@@')[0]
