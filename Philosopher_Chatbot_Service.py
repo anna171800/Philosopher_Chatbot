@@ -11,6 +11,8 @@ import numpy as np
 # .env 파일 불러오기
 load_dotenv()
 
+import os
+os.environ["TOKENIZERS_PARALLELISM"] = "false"  
 # OpenAI API 키 설정
 os.environ["OPEN_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 openai.api_key = os.environ["OPEN_API_KEY"]
