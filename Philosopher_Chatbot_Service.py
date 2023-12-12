@@ -208,11 +208,11 @@ for message in st.session_state.messages:
         st.write(input_message)
         st.write(message['content'])
         st.write("_________________________________________________________________________________________________________")
-        # 정규식 패턴: 괄호 사이의 값을 찾음
-        pattern = r'\|\s(.*?)\s\|'   
-        # 정규식을 사용하여 괄호 안의 값을 찾음
+        st.write("참고 저서: " )
+        pattern = r'\|(.*)\|'
         matches = re.findall(pattern, message['content'])
-        st.write("참고 저서: ", matches)
+        for match in matches:
+            st.write(match)
     elif message["role"] == "assistant":
         gpt_answer = message['content'].split('@@@')[0]
         st.write("🧔 %s: "%(message['content'].split('@@@')[1]))
