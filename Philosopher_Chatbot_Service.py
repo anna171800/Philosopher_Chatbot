@@ -135,11 +135,11 @@ with st.form(key='message_form'):
     
 def create_eng_chat_message(philosopher, question, input_text, max_tokens):
     user_prompt="""
-        question: %s \n 
-        Below texts are written by %s \n
+        question: %s\n 
+        Below texts are written by %s\n
             |1. {%s}
             2. {%s}
-            3. {%s}| \n
+            3. {%s}|\n
         Answer about question above, based on the texts above and %s's ideas, in the manner of %s, in %d words.
         """%(question, philosopher, input_text.iloc[0], input_text.iloc[1], input_text.iloc[2], philosopher, philosopher, max_tokens)
     st.session_state.messages.append({"role": "user", 
@@ -155,11 +155,11 @@ def create_eng_chat_message(philosopher, question, input_text, max_tokens):
 
 def create_ko_chat_message(philosopher, question, input_text, max_tokens):
     user_prompt="""
-        상담 내용: %s \n
-        아래에는 %s의 저서의 구절이야. \n
+        상담 내용: %s\n
+        아래에는 %s의 저서의 구절이야.\n
             |1. {%s}
             2. {%s}
-            3. {%s}| \n
+            3. {%s}|\n
         위 상담 내용에 대해, 위 구절과 %s의 사상을 바탕으로 %d 단어 이내로, %s의 말투를 사용해서 마치 %s인 것처럼 친절하게 상담해줘.
         """%(question, philosopher, input_text.iloc[0], input_text.iloc[1], input_text.iloc[2], 
              philosopher, max_tokens, philosopher, philosopher)
