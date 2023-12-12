@@ -172,8 +172,8 @@ if submit_button and user_message:
     #user_message_en=translator.translate_text(user_message, target_lang="EN-US").text
     input_question= user_message if chosen_philosopher in ['공자', '노자'] else translator.translate_text(user_message, target_lang='EN-US').text
     input_text=print_similarity(input_question, chosen_philosopher)
-    philosopher_eng = philosopher if chosen_philosopher in ['공자', '노자'] else translator.translate_text(chosen_philosopher, target_lang='EN-US').text
-    question_text = question if chosen_philosopher in ['공자', '노자'] else translator.translate_text(input_question, target_lang='EN-US').text
+    philosopher_eng = chosen_philosopher if chosen_philosopher in ['공자', '노자'] else translator.translate_text(chosen_philosopher, target_lang='EN-US').text
+    question_text = input_question if chosen_philosopher in ['공자', '노자'] else translator.translate_text(input_question, target_lang='EN-US').text
 
     if chosen_philosopher not in ['공자', '노자']:
         answer = create_eng_chat_message(philosopher_eng, question_text, input_text, max_tokens)
