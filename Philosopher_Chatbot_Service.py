@@ -208,13 +208,16 @@ for message in st.session_state.messages:
         st.write(input_message)
         st.write(message['content'])
         st.write("_________________________________________________________________________________________________________")
-        st.write("참고 저서: " )
+        st.write("참고 저서 구절: " )
+        st.write("_________________________________________________________________________________________________________")
         parts = message['content'].split('|')
         for part in parts[1:-1]:
             part=part.replace('{', ' ')
             part=part.replace('}', ' ')
-            formatted_text = re.sub(r"(\d+\.)", r"\n\1", part)
+            part_ko=translator.translate_text(part, target_lang='KO').text
+            formatted_text = re.sub(r"(\d+\.)", r"\n\1", part_ko)
             st.write(formatted_text)
+            st.write("_________________________________________________________________________________________________________")
     elif message["role"] == "assistant":
         gpt_answer = message['content'].split('@@@')[0]
         st.write("🧔 %s: "%(message['content'].split('@@@')[1]))
