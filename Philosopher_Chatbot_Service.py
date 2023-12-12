@@ -178,7 +178,7 @@ if submit_button and user_message:
     if chosen_philosopher not in ['공자', '노자']:
         answer = create_eng_chat_message(philosopher_eng, question_text, input_text, max_tokens)
     else:
-        answer = create_kor_chat_message(philosopher, question_text, input_text, max_tokens)
+        answer = create_ko_chat_message(philosopher, question_text, input_text, max_tokens)
    
     if 'messages' not in st.session_state:
         st.session_state.messages = []
