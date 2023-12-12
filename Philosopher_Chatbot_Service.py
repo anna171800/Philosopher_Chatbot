@@ -34,7 +34,7 @@ available_models = {
 
 #Text Embedding 데이터 불러오기
 data_url='https://drive.google.com/uc?id=1wvm_N5-WIfxGrTJ0yI5y91IYMgccyzbh'
-response = requests.get(url)
+response = requests.get(data_url)
 file_stream = io.BytesIO(response.content)
 
 # pandas로 피클 파일 읽기
