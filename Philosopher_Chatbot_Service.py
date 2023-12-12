@@ -216,6 +216,7 @@ for message in st.session_state.messages:
             part_ko=translator.translate_text(part, target_lang='KO').text
             formatted_text = re.sub(r"(\d+\.)", r"\n\1", text)
             st.write(formatted_text)
+            st.write('\n hi \n")
     elif message["role"] == "assistant":
         gpt_answer = message['content'].split('@@@')[0]
         st.write("🧔 %s: "%(message['content'].split('@@@')[1]))
