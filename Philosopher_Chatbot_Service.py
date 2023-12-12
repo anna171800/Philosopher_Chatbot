@@ -133,9 +133,9 @@ if submit_button and user_message:
     user_prompt="""
         상담 내용: %s
         아래에는 %s이 쓴 저서의 구절이야.
-            1. {%s}
+            1. ({%s}
             2. {%s}
-            3. {%s}
+            3. {%s})
         위 상담 내용에 대해, 위 구절과 %s의 사상을 바탕으로 %d자 이내로, %s의 말투를 사용해서 마치 %s가 말하듯이 친절하게 상담해줘.
         """%(user_message, chosen_philosopher, input_text.iloc[0], input_text.iloc[1], input_text.iloc[2], 
              chosen_philosopher, max_tokens, chosen_philosopher, chosen_philosopher)
@@ -169,6 +169,11 @@ for message in st.session_state.messages:
         st.write("🙋‍♂나:")
         st.write(input_message)
         st.write("_________________________________________________________________________________________________________")
+        # 정규식 패턴: 괄호 사이의 값을 찾음
+        pattern = r'\((.*?)\)'    
+        # 정규식을 사용하여 괄호 안의 값을 찾음
+        matches = re.findall(pattern, input_message)
+        st.write("참고 저서: " )
     elif message["role"] == "assistant":
         gpt_answer = message['content'].split('@@@')[0]
         st.write("🧔 %s: "%(message['content'].split('@@@')[1]))
