@@ -110,7 +110,7 @@ selected_model_final = available_models[selected_model]
 
 # session_state에 messages 리스트 초기화
 if "messages" not in st.session_state:
-    system_message="너는 %s야. AI챗봇처럼 대답하지말고, %s가 말하는 것처럼 대답해줘"%(chosen_philosopher, chosen_philosopher)
+    system_message="너는 %s야. AI챗봇처럼 대답하지말고, %s인 것처럼 대답해줘"%(chosen_philosopher, chosen_philosopher)
     system_message_eng=translator.translate_text(system_message, target_lang="EN-US").text
     st.session_state.messages = [
         {"role": "system", 
@@ -205,7 +205,7 @@ for message in st.session_state.messages:
         pattern = r'\|\s(.*?)\s\|'   
         # 정규식을 사용하여 괄호 안의 값을 찾음
         matches = re.findall(pattern, message['content'])
-        st.write("참고 저서: \n", matches)
+        st.write("참고 저서: ", matches)
     elif message["role"] == "assistant":
         gpt_answer = message['content'].split('@@@')[0]
         st.write("🧔 %s: "%(message['content'].split('@@@')[1]))
