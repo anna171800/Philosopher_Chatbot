@@ -137,9 +137,7 @@ def create_eng_chat_message(philosopher, question, input_text, max_tokens):
     user_prompt="""
         question: %s\n 
         Below texts are written by %s\n
-            |1. {%s}
-            2. {%s}
-            3. {%s}|\n
+        1. {%s}     2. {%s}     3. {%s}     
         Answer about question above, based on the texts above and %s's ideas, in the manner of %s, in %d words.
         """%(question, philosopher, input_text.iloc[0], input_text.iloc[1], input_text.iloc[2], philosopher, philosopher, max_tokens)
     st.session_state.messages.append({"role": "user", 
@@ -157,9 +155,7 @@ def create_ko_chat_message(philosopher, question, input_text, max_tokens):
     user_prompt="""
         상담 내용: %s\n
         아래에는 %s의 저서의 구절이야.\n
-            |1. {%s}
-            2. {%s}
-            3. {%s}|\n
+        1. {%s}     2. {%s}     3. {%s}|\n
         위 상담 내용에 대해, 위 구절과 %s의 사상을 바탕으로 %d 단어 이내로, %s의 말투를 사용해서 마치 %s인 것처럼 친절하게 상담해줘.
         """%(question, philosopher, input_text.iloc[0], input_text.iloc[1], input_text.iloc[2], 
              philosopher, max_tokens, philosopher, philosopher)
@@ -207,14 +203,15 @@ for message in st.session_state.messages:
         st.write("🙋‍♂나:")
         st.write(input_message)
         st.write("_________________________________________________________________________________________________________")
+        st.write("참고 저서 구절: " )
         parts = message['content'].split('|')
         for part in parts[1:-1]:
             part=part.replace('{', ' ')
             part=part.replace('}', ' ')
-            part_ko=translator.translate_text(part, target_lang='KO').text
-            formatted_text = re.sub(r"(\d+\.)", r"\n\1", part_ko)
-            st.write("참고 저서 구절: " )
-            st.write(formatted_text)
+            num_text=part.split('     ')
+            for i in range(3):
+                part_ko=translator.translate_text(num_text[i], target_lang='KO').text
+                st.write(part_ko)
     elif message["role"] == "assistant":
         gpt_answer = message['content'].split('@@@')[0]
         st.write("🧔 %s: "%(message['content'].split('@@@')[1]))
