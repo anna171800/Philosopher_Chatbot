@@ -136,7 +136,7 @@ with st.form(key='message_form'):
 def create_eng_chat_message(philosopher, question, input_text, max_tokens):
     user_prompt="""
         question: %s \n 
-        Below texts are written by %s\n
+        Below texts are written by %s \n
             |1. {%s}
             2. {%s}
             3. {%s}|\n
@@ -156,7 +156,7 @@ def create_eng_chat_message(philosopher, question, input_text, max_tokens):
 def create_ko_chat_message(philosopher, question, input_text, max_tokens):
     user_prompt="""
         상담 내용: %s \n
-        아래에는 %s의 저서의 구절이야.\n
+        아래에는 %s의 저서의 구절이야. \n
             |1. {%s}
             2. {%s}
             3. {%s}|\n
