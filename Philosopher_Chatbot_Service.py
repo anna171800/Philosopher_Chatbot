@@ -137,8 +137,8 @@ def create_eng_chat_message(philosopher, question, input_text, max_tokens):
     user_prompt="""
         question: %s \n 
         Below texts are written by %s \n
-            |1. {%s}
-            2. {%s}
+            |1. {%s}\n
+            2. {%s}\n
             3. {%s}| \n
         Answer about question above, based on the texts above and %s's ideas, in the manner of %s, in %d words.
         """%(question, philosopher, input_text.iloc[0], input_text.iloc[1], input_text.iloc[2], philosopher, philosopher, max_tokens)
@@ -208,7 +208,7 @@ for message in st.session_state.messages:
         st.write(input_message)
         st.write(message['content'])
         st.write("_________________________________________________________________________________________________________")
-        st.write("참고 저서: " )
+        st.write("참고 저서: \n" )
         parts = message['content'].split('|')
         # 첫 번째와 마지막 부분을 제외한 모든 요소를 출력
         # 첫 번째와 마지막 요소는 | 앞과 뒤의 빈 문자열
