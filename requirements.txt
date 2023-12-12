@@ -3,6 +3,7 @@ streamlit-option-menu
 streamlit-chat
 folium
 streamlit_folium
+requests
 openai
 deepl
 xmltodict
