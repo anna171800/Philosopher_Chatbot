@@ -215,7 +215,7 @@ for message in st.session_state.messages:
         for part in parts[1:-1]:
             part=part.replace('{', ' ')
             part=part.replace('}', ' ')
-            st.write(part)
+            st.write(part, '\n')
     elif message["role"] == "assistant":
         gpt_answer = message['content'].split('@@@')[0]
         st.write("🧔 %s: "%(message['content'].split('@@@')[1]))
