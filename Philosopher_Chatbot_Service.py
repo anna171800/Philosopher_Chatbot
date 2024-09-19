@@ -19,7 +19,7 @@ openai.api_key = os.environ["OPEN_API_KEY"]
 
 #DeepL API 키 설정
 DeepL_API_KEY="c24af978-e422-0d8b-4420-4c2daa1a067e:fx"
-translator=deepl.Translator("DeepL_API_KEY")
+translator=deepl.Translator(DeepL_API_KEY)
 
 #DeepL API 키 설정
 #translator = deepl.Translator(os.getenv("DeepL_API_KEY"))
